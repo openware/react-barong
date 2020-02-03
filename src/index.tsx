@@ -1,23 +1,29 @@
-/**
- * @class ExampleComponent
- */
+// tslint:disable:no-submodule-imports
+import 'bootstrap/dist/css/bootstrap-grid.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { createBrowserHistory } from 'history';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { addLocaleData } from 'react-intl';
 
-import * as React from 'react'
+import en from 'react-intl/locale-data/en';
 
-import styles from './styles.css'
+import { Provider } from 'react-redux';
 
-export type Props = { text: string }
+import { App } from './App';
+import './index.css';
+import { rootSaga } from './modules';
+import { sagaMiddleware, store } from './store';
+const history = createBrowserHistory();
 
-export default class ExampleComponent extends React.Component<Props> {
-  render() {
-    const {
-      text
-    } = this.props
+addLocaleData([...en]);
+sagaMiddleware.run(rootSaga);
 
-    return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
-    )
-  }
-}
+const render = () => ReactDOM.render(
+  <Provider store={store}>
+      <App history={history} />
+  </Provider>,
+  document.getElementById('root') as HTMLElement,
+);
+
+render();
