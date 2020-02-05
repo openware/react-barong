@@ -2,7 +2,7 @@
   "linterOptions": {
     "exclude": [
       "config/**/*.js",
-      "node_modules/",
+      "node_modules/**",
       "coverage/lcov-report/*.js",
       "src/charting_library/*"
     ]
