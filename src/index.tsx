@@ -1,23 +1,21 @@
-/**
- * @class ExampleComponent
- */
+import 'bootstrap/dist/css/bootstrap-grid.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { createBrowserHistory } from 'history';
+import * as React from 'react';
 
-import * as React from 'react'
+import { Provider } from 'react-redux';
 
-import styles from './styles.css'
+import { App } from './App';
+import './index.css';
+import { store } from './store';
+const history = createBrowserHistory();
 
-export type Props = { text: string }
-
-export default class ExampleComponent extends React.Component<Props> {
-  render() {
-    const {
-      text
-    } = this.props
-
+export class ReactSignIn {
+  public render() {
     return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
-    )
+      <Provider store={store}>
+        <App history={history} />
+      </Provider>
+    );
   }
 }
