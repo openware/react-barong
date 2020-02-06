@@ -3,8 +3,8 @@
  */
 
 import * as React from 'react'
-
-import styles from './styles.css'
+import { CustomInput } from './components/CustomInput';
+import styles from './index.css'
 
 export type Props = { text: string }
 
@@ -16,7 +16,16 @@ export default class ExampleComponent extends React.Component<Props> {
 
     return (
       <div className={styles.test}>
-        Example Component: {text}
+        <CustomInput
+          type="email"
+          label={'Email'}
+          placeholder={'Email'}
+          defaultLabel="Email"
+          inputValue={text}
+          classNameLabel="cr-email-form__label"
+          classNameInput="cr-email-form__input"
+          autoFocus={true}
+        />
       </div>
     )
   }
