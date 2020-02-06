@@ -35,15 +35,19 @@ export default {
     svgr(),
     resolve(),
     typescript({
-      exclude: "node_modules",
       rollupCommonJSResolveHack: true,
       clean: true
     }),
+    commonjs({
+      include: 'node_modules/**',
+      namedExports: {
+        'node_modules/react-dom/index.js': [ 'unstable_batchedUpdates' ]
+      }
+    }),
     babel({
-      exclude: "node_modules",
+      exclude: 'node_modules/**',
       babelrc: false,
       presets: [['env', { modules: false }]],
     }),
-    commonjs()
   ]
 }
