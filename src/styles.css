@@ -1,4 +1,5 @@
 /* add css styles here (optional) */
+@import './index.pcss';
 
 .test {
   display: inline-block;
