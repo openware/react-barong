@@ -10,7 +10,7 @@ import './index.css';
 import { store } from './store';
 const history = createBrowserHistory();
 
-export class ReactSignIn {
+export default class ReactSignIn {
   public render() {
     return (
       <Provider store={store}>
