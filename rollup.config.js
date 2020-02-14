@@ -37,6 +37,12 @@ export default {
       rollupCommonJSResolveHack: true,
       clean: true
     }),
-    commonjs()
+    commonjs({
+      include: 'node_modules/**',
+      namedExports: {
+        'node_modules/react-dom/index.js': [ 'unstable_batchedUpdates' ],
+        'node_modules/react-is/index.js': [ 'isValidElementType, isContextConsumer' ]
+      }
+    }),
   ]
 }
