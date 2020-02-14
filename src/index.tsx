@@ -1,32 +1,15 @@
-/**
- * @class ExampleComponent
- */
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import "./index.css";
+import App from "./App";
+import * as serviceWorker from "./serviceWorker";
 
-import * as React from 'react'
-import { CustomInput } from './components/CustomInput';
-import styles from './index.css'
+ReactDOM.render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>,
+    document.getElementById("root")
+);
 
-export type Props = { text: string }
-
-export default class ExampleComponent extends React.Component<Props> {
-  render() {
-    const {
-      text
-    } = this.props
-
-    return (
-      <div className={styles.test}>
-        <CustomInput
-          type="email"
-          label={'Email'}
-          placeholder={'Email'}
-          defaultLabel="Email"
-          inputValue={text}
-          classNameLabel="cr-email-form__label"
-          classNameInput="cr-email-form__input"
-          autoFocus={true}
-        />
-      </div>
-    )
-  }
-}
+serviceWorker.unregister();
