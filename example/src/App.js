@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 
-import CompleteForm from 'react-barong'
+import Widget from 'react-barong'
 
-export default class ExmapleApp extends Component {
+export default class ExampleApp extends Component {
   render () {
     return (
       <div>
-        <CompleteForm />
+        <Widget />
       </div>
     )
   }

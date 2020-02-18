@@ -1,4 +1,3 @@
-import "./styles.css";
 import * as React from 'react'
 import LoginForm from '../../components/login'
 import RegisterForm from '../../components/register'

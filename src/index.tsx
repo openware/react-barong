@@ -1,3 +1,3 @@
-import CompleteForm from './containers/widget'
+import Widget from './containers/widget'
 
-export default CompleteForm ;
+export default Widget;
