@@ -1,13 +1,18 @@
 import React, { Component } from 'react'
-
-import Widget from 'react-barong'
+import { Tabs, Tab } from 'react-bootstrap';
+import { LoginForm, RegisterForm } from 'react-barong'
 
 export default class ExampleApp extends Component {
   render () {
     return (
-      <div>
-        <Widget />
-      </div>
+      <Tabs defaultActiveKey="login" id="uncontrolled-tab-example">
+        <Tab eventKey="login" title="SignIn">
+          <LoginForm />
+        </Tab>
+        <Tab eventKey="create-account" title="SignUp">
+          <RegisterForm />
+        </Tab>
+      </Tabs>
     )
   }
 }

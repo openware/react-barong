@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 
-export default class RegisterForm extends Component {
+export class RegisterForm extends Component {
   render() {
     return (
       <div className="container login-form">
