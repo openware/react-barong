@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import axios from 'axios';
+import { PASSWORD_REGEX, EMAIL_REGEX } from '../../helpers';
 
 interface LoginState {
   email: string,
@@ -9,9 +10,6 @@ interface LoginState {
   passwordValid: boolean,
   formValid: boolean,
 }
-
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/; // min. 8 characters, at least one uppercase letter, lowercase letter, number and special character
-const EMAIL_REGEX = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
 
 export class LoginForm extends Component<LoginState> {
   public state = {
@@ -68,7 +66,6 @@ export class LoginForm extends Component<LoginState> {
   render() {
     return (
       <div className="container login-form">
-        <h2 className="login-title">- Please Login -</h2>
         <div className="panel panel-default">
           <div className="panel-body">
             <form onSubmit={this.handleSubmit}>
@@ -81,7 +78,7 @@ export class LoginForm extends Component<LoginState> {
                 <input type="password" className="form-control" name="password" placeholder="Password" onChange={e => this.onChange(e.target.value, 'password')} />
               </div>
               <button className="btn btn-primary btn-block login-button" type="submit" disabled={!this.state.formValid}><i className="fa fa-sign-in"></i> Login</button>
-              <div className="login-options">
+              <div className="login-options text-center mt-3">
                 <a href="#" className="login-forgot">Forgot Password?</a>
               </div>
             </form>
