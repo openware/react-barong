@@ -5,7 +5,7 @@ import { LoginForm, RegisterForm } from 'react-barong'
 export default class ExampleApp extends Component {
   render () {
     return (
-      <Tabs defaultActiveKey="login" id="uncontrolled-tab-example">
+      <Tabs fill justify defaultActiveKey="login" id="uncontrolled-tab-example">
         <Tab eventKey="login" title="SignIn">
           <LoginForm />
         </Tab>
