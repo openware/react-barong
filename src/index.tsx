@@ -1,3 +1,7 @@
-import Widget from './containers/widget'
+import { RegisterForm } from './components/register';
+import { LoginForm } from './components/login';
 
-export default Widget;
+export {
+  LoginForm,
+  RegisterForm,
+}
