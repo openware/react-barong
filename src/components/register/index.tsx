@@ -13,32 +13,34 @@ interface RegisterState {
   formValid: boolean,
 }
 
-export class RegisterForm extends Component<RegisterState> {
-  public state = {
-    email: '',
-    password: '',
-    confirmPassword: '',
-    emailValid: false,
-    passwordValid: false,
-    confirmPasswordValid: false,
-    formValid: false,
-  };
+interface Props {
+  host: string;
+}
+
+export class RegisterForm extends Component<Props, RegisterState> {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      emailValid: false,
+      passwordValid: false,
+      confirmPasswordValid: false,
+      formValid: false,
+    };
+  }
 
   onChange = (value: string, key: string) => {
-    // @ts-ignore
-    switch(key) {
-      case 'email':
-        value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
-        break;
-      case 'password':
-        value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
-        break;
-      case 'confirmPassword':
-        value == this.state.password ? this.setState({confirmPasswordValid: true}) : this.setState({confirmPasswordValid: false});
-        break;
-      default:
-        break;
+    if (key === 'email') {
+      value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
+    } else if (key === 'password') {
+      value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
+    } else if (key === 'confirmPassword') {
+      value == this.state.password ? this.setState({confirmPasswordValid: true}) : this.setState({confirmPasswordValid: false});
     }
+     // @ts-ignore
     this.setState({
       [key]: value,
     }, this.validateForm);
@@ -56,8 +58,7 @@ export class RegisterForm extends Component<RegisterState> {
         email: this.state.email,
         password: this.state.password,
     };
-    console.log(this.state);
-    axios.post('http://localhost:3000/api/v2/identity/users',
+    axios.post(`http://${this.props.host}/api/v2/identity/users`,
       {
         email: data.email,
         password: data.password

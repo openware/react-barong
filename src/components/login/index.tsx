@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import axios from 'axios';
 import { PASSWORD_REGEX, EMAIL_REGEX } from '../../helpers';
 
@@ -11,27 +10,30 @@ interface LoginState {
   formValid: boolean,
 }
 
-export class LoginForm extends Component<LoginState> {
-  public state = {
-    email: '',
-    password: '',
-    emailValid: false,
-    passwordValid: false,
-    formValid: false,
-  };
+interface Props {
+  host: string;
+}
+
+export class LoginForm extends React.Component<Props, LoginState> {
+  constructor(props: any) {
+    super(props);
+
+    this.state = {
+      email: '',
+      password: '',
+      emailValid: false,
+      passwordValid: false,
+      formValid: false,
+    };
+  }
 
   onChange = (value: string, key: string) => {
-    // @ts-ignore
-    switch(key) {
-      case 'email':
-        value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
-        break;
-      case 'password':
-        value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
-        break;
-      default:
-        break;
+    if (key === 'email') {
+      value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
+    } else if (key === 'password') {
+      value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
     }
+    // @ts-ignore
     this.setState({
         [key]: value,
     }, this.validateForm);
@@ -49,12 +51,13 @@ export class LoginForm extends Component<LoginState> {
         email: this.state.email,
         password: this.state.password,
     };
-    axios.post('http://localhost:3000/api/v2/identity/sessions',
+    axios.post(`http://${this.props.host}/api/v2/identity/sessions`,
       {
         email: data.email,
         password: data.password
       }
     )
+    // @ts-ignore
     .then(response => {
       console.log(response)
     })
