@@ -19,11 +19,14 @@
     "start": "rollup -c -w",
     "prepare": "yarn run build",
     "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "deploy": "gh-pages -d example/build",
+    "lint": "tsc --noEmit && tslint --project .",
+    "lint:fix": "tslint --project . --fix"
   },
   "dependencies": {
     "axios": "^0.19.2",
-    "rollup-plugin-json": "^4.0.0"
+    "rollup-plugin-json": "^4.0.0",
+    "tslint": "^6.0.0"
   },
   "peerDependencies": {
     "prop-types": "^15.5.4",
