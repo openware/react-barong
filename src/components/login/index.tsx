@@ -51,7 +51,7 @@ export class LoginForm extends React.Component<Props, LoginState> {
         email: this.state.email,
         password: this.state.password,
     };
-    axios.post(`http://${this.props.host}/api/v2/identity/sessions`,
+    axios.post(`${this.props.host}`,
       {
         email: data.email,
         password: data.password

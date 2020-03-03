@@ -58,7 +58,7 @@ export class RegisterForm extends Component<Props, RegisterState> {
         email: this.state.email,
         password: this.state.password,
     };
-    axios.post(`http://${this.props.host}/api/v2/identity/users`,
+    axios.post(`${this.props.host}`,
       {
         email: data.email,
         password: data.password
