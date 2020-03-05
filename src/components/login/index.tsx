@@ -1,8 +1,15 @@
 import * as React from 'react'
-import { withBarong } from 'react-barong';
 import { PASSWORD_REGEX, EMAIL_REGEX } from '../../helpers';
 
-class LoginForm extends React.Component {
+interface LoginState {
+    email: string;
+    password: string;
+    emailValid: boolean;
+    passwordValid: boolean;
+    formValid: boolean;
+}
+
+export class LoginForm extends React.Component<{}, LoginState> {
     constructor(props) {
         super(props);
 
@@ -17,11 +24,11 @@ class LoginForm extends React.Component {
 
     onChange = (value: string, key: string) => {
         if (key === 'email') {
-          value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
+            value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
         } else if (key === 'password') {
-          value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
+            value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
         }
-
+        //@ts-ignore
         this.setState({
             [key]: value,
         }, this.validateForm);
@@ -50,6 +57,7 @@ class LoginForm extends React.Component {
                             <button
                                 className="btn btn-primary btn-block login-button"
                                 type="submit"
+                                disabled={!this.state.formValid}
                             >
                                 <i className="fa fa-sign-in" /> Login
                             </button>
@@ -67,8 +75,7 @@ class LoginForm extends React.Component {
         e.preventDefault();
         const { email, password } = this.state;
         window.console.log('here');
+        //@ts-ignore
         this.props.login({ email, password });
     };
 }
-
-export default withBarong(LoginForm, { type: 'login', host: 'https://dev.yellow.openware.work/api/v2/barong' });
