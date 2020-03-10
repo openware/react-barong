@@ -1,5 +1,6 @@
-import * as React from 'react'
-import { PASSWORD_REGEX, EMAIL_REGEX } from '../../helpers';
+import { AxiosPromise } from 'axios';
+import * as React from 'react';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '../../helpers';
 
 interface LoginState {
     email: string;
@@ -9,8 +10,13 @@ interface LoginState {
     formValid: boolean;
 }
 
-export class LoginForm extends React.Component<{}, LoginState> {
-    constructor(props) {
+interface BarongProps {
+    login: ({email, password}) => AxiosPromise;
+    redirection: string;
+}
+
+export class BarongLoginForm extends React.Component<BarongProps, LoginState> {
+    constructor(props: BarongProps) {
         super(props);
 
         this.state = {
@@ -22,25 +28,7 @@ export class LoginForm extends React.Component<{}, LoginState> {
         };
     }
 
-    onChange = (value: string, key: string) => {
-        if (key === 'email') {
-            value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
-        } else if (key === 'password') {
-            value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
-        }
-        //@ts-ignore
-        this.setState({
-            [key]: value,
-        }, this.validateForm);
-    }
-
-    validateForm = () => {
-        this.setState({
-            formValid: this.state.emailValid && this.state.passwordValid,
-        });
-    }
-
-    render() {
+    public render() {
         return (
             <div className="container login-form">
                 <div className="panel panel-default">
@@ -71,11 +59,32 @@ export class LoginForm extends React.Component<{}, LoginState> {
         );
     }
 
-    handleSubmit = e => {
+    private onChange = (value: string, key: string) => {
+        if (key === 'email') {
+            value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
+        } else if (key === 'password') {
+            value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
+        }
+        //@ts-ignore
+        this.setState({
+            [key]: value,
+        }, this.validateForm);
+    };
+
+    private validateForm = () => {
+        this.setState({
+            formValid: this.state.emailValid && this.state.passwordValid,
+        });
+    };
+
+    private handleSubmit = e => {
         e.preventDefault();
         const { email, password } = this.state;
-        window.console.log('here');
-        //@ts-ignore
-        this.props.login({ email, password });
+
+        this.props.login({ email, password }).then(response => {
+            response.status === 200 ? window.location.replace(`${this.props.redirection}`) : window.console.log(response);
+        }).catch(err => {
+            window.console.error(err);
+        });
     };
 }
