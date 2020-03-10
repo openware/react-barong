@@ -1,5 +1,5 @@
-import * as React from "react";
-import { PASSWORD_REGEX, EMAIL_REGEX } from '../../helpers';
+import * as React from 'react';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '../../helpers';
 
 interface RegisterState {
     email: string;
@@ -24,9 +24,9 @@ export class RegisterForm extends React.Component<{}, RegisterState> {
             confirmPasswordValid: false,
             formValid: false,
         };
-  }
+    }
 
-  onChange = (value: string, key: string) => {
+    public onChange = (value: string, key: string) => {
         if (key === 'email') {
             value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
         } else if (key === 'password') {
@@ -38,15 +38,15 @@ export class RegisterForm extends React.Component<{}, RegisterState> {
         this.setState({
             [key]: value,
         }, this.validateForm);
-  }
+    };
 
-    validateForm = () => {
+    public validateForm = () => {
         this.setState({
             formValid: this.state.emailValid && this.state.passwordValid && this.state.confirmPasswordValid,
-        })
-    }
+        });
+    };
 
-    render() {
+    public render() {
         return (
             <div className="container login-form">
                 <div className="panel panel-default">
@@ -72,11 +72,15 @@ export class RegisterForm extends React.Component<{}, RegisterState> {
         );
     }
 
-    handleSubmit = e => {
+    public handleSubmit = e => {
         e.preventDefault();
         const { email, password } = this.state;
-        window.console.log('here');
         //@ts-ignore
-        this.props.register({ email, password });
+        this.props.register({ email, password }).then(response => {
+            //@ts-ignore
+            response.status === 201 ? window.location.href = `${this.props.redirection}` : window.console.log(response);
+        }).catch(error => {
+            window.console.log(error.response);
+        });
     };
 }
