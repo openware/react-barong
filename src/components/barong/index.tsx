@@ -14,7 +14,6 @@ interface WithBarongProps {
 
 export const withBarong = (WrappedComponent: any, wrapperProps: WithBarongProps): React.ComponentClass => {
     class WithBarong extends React.Component<WithBarongProps> {
-
         public render() {
             const props = {
                 login: wrapperProps.type === 'login' ? this.login : undefined,
