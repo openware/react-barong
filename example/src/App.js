@@ -1,9 +1,19 @@
-import * as React from "react";
+import * as React from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import {withBarong, LoginForm, RegisterForm } from "react-barong";
+import { withBarong, BarongLoginForm, BarongRegisterForm } from 'react-barong';
 
-const Register = withBarong(RegisterForm, { type: 'register', host: 'https://dev.yellow.openware.work/api/v2/barong' });
-const Login = withBarong(LoginForm, { type: 'login', host: 'https://dev.yellow.openware.work/api/v2/barong' });
+const Register = withBarong(BarongRegisterForm, {
+    type: 'register',
+    host: 'http://localhost:3000/api/v2',
+    redirection: 'http://localhost:3000/office',
+});
+
+const Login = withBarong(BarongLoginForm, {
+    type: 'login',
+    host: 'http://localhost:3000/api/v2',
+    redirection: 'http://localhost:3000/office',
+});
+
 export default class ExampleApp extends React.Component {
     render () {
         return (

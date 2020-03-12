@@ -1,9 +1,9 @@
-import withBarong from './components/barong';
-import { RegisterForm } from './components/register';
-import { LoginForm } from './components/login';
+import { withBarong } from './components/barong';
+import { BarongLoginForm } from './components/login';
+import { BarongRegisterForm } from './components/register';
 
 export {
     withBarong,
-    RegisterForm,
-    LoginForm,
-}
+    BarongRegisterForm,
+    BarongLoginForm,
+};

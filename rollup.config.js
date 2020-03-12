@@ -39,7 +39,12 @@ export default {
       rollupCommonJSResolveHack: true,
       clean: true
     }),
-    commonjs(),
+    commonjs({
+      include: 'node_modules/**',
+      namedExports: {
+        'node_modules/react-is/index.js': ['isValidElementType']
+      }
+    }),
     json()
   ]
 }
