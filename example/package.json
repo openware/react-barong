@@ -13,6 +13,13 @@
     "react-scripts": "^1.1.4",
     "react-barong": "link:.."
   },
+  "resolutions": {
+    "mem": ">= 4.0.0",
+    "eslint": ">= 4.18.2",
+    "js-yaml": ">= 3.13.1",
+    "webpack-dev-server": ">= 3.1.11",
+    "serialize-javascript": ">= 2.1.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
