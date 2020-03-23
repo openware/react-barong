@@ -10,6 +10,16 @@ steps:
       - yarn lint
       - yarn test || echo tests are not ok
 
+  - name: "Bump & Tag"
+    image: quay.io/openware/sdk-citools:2.3.1
+    environment:
+      BRANCH_NAME: ${DRONE_BRANCH}
+      REPO_NAME: ${DRONE_REPO}
+      GITHUB_API_KEY:
+        from_secret: kite_bot_key
+    commands:
+      - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:prebuild
+
   - name: Republish package on npmjs
     image: node:12.13.1
     environment:
@@ -31,16 +41,6 @@ steps:
       - sh scripts/version_bump.sh $NPM_LOGIN $NPM_PASS
       - git add package.json
       - git commit --amend --no-edit
-
-  - name: "Bump & Tag"
-    image: quay.io/openware/sdk-citools:2.3.1
-    environment:
-      BRANCH_NAME: ${DRONE_BRANCH}
-      REPO_NAME: ${DRONE_REPO}
-      GITHUB_API_KEY:
-        from_secret: kite_bot_key
-    commands:
-      - BUNDLE_GEMFILE=/sdk/Gemfile bundle exec rake --rakefile=/sdk/Rakefile ci:prebuild
 
 trigger:
   event:
