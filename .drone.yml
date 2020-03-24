@@ -50,4 +50,3 @@ trigger:
 
 image_pull_secrets:
   - dockerconfigjson
-
