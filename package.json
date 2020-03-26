@@ -1,6 +1,6 @@
 {
-  "name": "react-barong",
-  "version": "1.3.2",
+  "name": "@openware/react-barong",
+  "version": "1.4.1",
   "description": "Barong React SignUp and SignIn component library",
   "author": "openware",
   "license": "Apache 2.0",
@@ -27,6 +27,7 @@
     "mem": ">= 4.0.0",
     "eslint": ">= 4.18.2",
     "js-yaml": ">= 3.13.1",
+    "minimist": ">= 1.2.2",
     "webpack-dev-server": ">= 3.1.11",
     "serialize-javascript": ">= 2.1.1"
   },
