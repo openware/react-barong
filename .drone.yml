@@ -38,21 +38,21 @@ steps:
       - git fetch origin
       - echo "//registry.npmjs.org/:_authToken=$NPMJS_TOKEN" > .npmrc
       - npm --no-git-tag-version version "$(cat VERSION)"
-      - npm publish | true
+      - npm publish --access=public | true
       - git add package.json VERSION
-      - git commit --amend --no-edit
+      - git commit --amend -m "$(git log -1 --pretty) [CI SKIP]"
       - git tag $(cat VERSION) | true
-      - git push -f origin ${DRONE_BRANCH}
+      - git push -f origin ${DRONE_BRANCH} | true
       - git push --tags origin | true
       - git describe --tags $(git rev-list --tags --max-count=1) > .tags
     when:
       event:
         - push
-      branch:
-        - master
+
 trigger:
   event:
   - push
 
 image_pull_secrets:
   - dockerconfigjson
+
