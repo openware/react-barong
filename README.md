@@ -6,6 +6,8 @@
 
 ## Install
 
+
+If you want to add package to your project run:
 ```bash
 npm install --save react-barong
 ```
@@ -13,18 +15,74 @@ npm install --save react-barong
 ## Usage
 
 ```tsx
-import * as React from 'react'
+import * as React from 'react';
+import { Tabs, Tab } from 'react-bootstrap';
+import { withBarong, BarongLoginForm, BarongRegisterForm } from 'react-barong';
 
-import MyComponent from 'react-barong'
+const Register = withBarong(BarongRegisterForm, {
+    type: 'register',
+    host: 'http://localhost:3000/api/v2', //localhost can be changed for address of barong application
+    redirection: 'http://localhost:3000/office', //address to which user should be redirected after successful registration
+});
 
-class Example extends React.Component {
-  render () {
-    return (
-      <MyComponent />
-    )
-  }
+const Login = withBarong(BarongLoginForm, {
+    type: 'login',
+    host: 'http://localhost:3000/api/v2', //localhost can be changed for address of barong application
+    redirection: 'http://localhost:3000/office', //address to which user should be redirected after successful sign in
+});
+
+export default class ExampleApp extends React.Component {
+    render () {
+        return (
+            <Tabs fill justify defaultActiveKey="login" id="uncontrolled-tab-example">
+                <Tab eventKey="login" title="SignIn">
+                    <Login />
+                </Tab>
+                <Tab eventKey="create-account" title="SignUp">
+                    <Register />
+                </Tab>
+            </Tabs>
+        );
+    }
 }
 ```
+
+## Demo
+
+If you want to see demo of this application:
+
+1. Clone repositroy
+2. Run
+```bash
+npm install
+npm build
+```
+3. Go to *./example* directory and start development server:
+```bash
+npm install
+npm start
+```
+
+## Local development
+
+For local development you can change version of `react-barong` inside ./example/package.json for
+```json
+"react-barong": "link:.."
+```
+then, in root folder, run
+
+```bash 
+npm install
+npm start
+```
+
+and start development server
+```bash
+cd ./example
+npm install
+npm start
+```
+
 
 ## License
 

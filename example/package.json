@@ -4,26 +4,27 @@
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
-  "dependencies": {
-    "prop-types": "^15.6.2",
-    "bootstrap": "^4.4.1",
-    "react-bootstrap": "^1.0.0-beta.16",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts": "^1.1.4",
-    "react-barong": "link:.."
-  },
-  "resolutions": {
-    "mem": ">= 4.0.0",
-    "eslint": ">= 4.18.2",
-    "js-yaml": ">= 3.13.1",
-    "webpack-dev-server": ">= 3.1.11",
-    "serialize-javascript": ">= 2.1.1"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
+  },
+  "resolutions": {
+    "dot-prop": ">= 5.1.1",
+    "mem": ">=4.0.0",
+    "eslint": ">=4.18.2",
+    "braces": ">=2.3.1",
+    "js-yaml": ">=3.13.1",
+    "webpack-dev-server": ">=3.1.11"
+  },
+  "dependencies": {
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "bootstrap": "^4.5.2",
+    "react-dom": "^16.4.1",
+    "react-scripts": "^1.1.4",
+    "react-barong": "^1.4.1"
   }
 }
