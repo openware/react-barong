@@ -88,9 +88,6 @@ var BarongRegisterForm = function (_a) {
             window.console.log(error.response);
         });
     }, [host, redirection]);
-    useEffect(function () {
-        console.log(errors);
-    }, [errors]);
     return (React.createElement(BarongLayout, null,
         React.createElement("form", { onSubmit: handleSubmit(onSubmit) },
             React.createElement(Form.Group, null,

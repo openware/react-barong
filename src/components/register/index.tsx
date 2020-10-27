@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
@@ -26,10 +26,6 @@ export const BarongRegisterForm: React.FC<Props> = ({ host, redirection }) => {
         },
         [host, redirection]
     );
-
-    useEffect(() => {
-        console.log(errors);
-    }, [errors]);
 
     return (
         <BarongLayout>
