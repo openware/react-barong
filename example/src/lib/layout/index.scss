@@ -12,9 +12,9 @@
         }
     }
     &__children {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px;
+        &-content {
+            margin: 15px auto;
+            max-width: 500px;
+        }
     }
 }

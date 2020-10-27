@@ -1,25 +1,8 @@
-import { AxiosPromise } from 'axios';
-import * as React from 'react';
+import React from 'react';
 import './index.scss';
-interface LoginState {
-    email: string;
-    password: string;
-    emailValid: boolean;
-    passwordValid: boolean;
-    formValid: boolean;
-}
-interface BarongProps {
-    login: ({ email, password }: {
-        email: any;
-        password: any;
-    }) => AxiosPromise;
+interface Props {
     redirection: string;
+    host: string;
 }
-export declare class BarongLoginForm extends React.Component<BarongProps, LoginState> {
-    constructor(props: BarongProps);
-    render(): JSX.Element;
-    private onChange;
-    private validateForm;
-    private handleSubmit;
-}
+export declare const BarongLoginForm: React.FC<Props>;
 export {};

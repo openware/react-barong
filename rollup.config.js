@@ -1,9 +1,11 @@
 import typescript from 'rollup-plugin-typescript2';
 import scss from 'rollup-plugin-scss';
 import pkg from './package.json';
+import external from 'rollup-plugin-peer-deps-external';
 import fs from 'fs';
 
 const plugins = [
+    external(),
     typescript({
         typescript: require('typescript'),
     }),
