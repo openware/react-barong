@@ -1,6 +1,7 @@
 import { AxiosPromise } from 'axios';
 import * as React from 'react';
-import { EMAIL_REGEX, PASSWORD_REGEX } from '../../helpers';
+import { EMAIL_REGEX, PASSWORD_REGEX } from '../../utils';
+import { BarongLayout } from '../layout';
 
 interface RegisterState {
     email: string;
@@ -10,10 +11,10 @@ interface RegisterState {
     passwordValid: boolean;
     confirmPasswordValid: boolean;
     formValid: boolean;
-  }
+}
 
-  interface BarongProps {
-    register: ({email, password}) => AxiosPromise;
+interface BarongProps {
+    register: ({ email, password }) => AxiosPromise;
     redirection: string;
 }
 
@@ -34,42 +35,75 @@ export class BarongRegisterForm extends React.Component<BarongProps, RegisterSta
 
     public render() {
         return (
-            <div className="container login-form">
-                <div className="panel panel-default">
-                <div className="panel-body">
-                    <form onSubmit={this.handleSubmit}>
+            <BarongLayout>
+                <form onSubmit={this.handleSubmit}>
                     <div className="input-group login-userinput">
-                        <span className="input-group-addon"><span className="glyphicon glyphicon-user"></span></span>
-                        <input id="userEmail" type="text" className="form-control" name="email" placeholder="Email" onChange={e => this.onChange(e.target.value, 'email')} />
+                        <span className="input-group-addon">
+                            <span className="glyphicon glyphicon-user"></span>
+                        </span>
+                        <input
+                            id="userEmail"
+                            type="text"
+                            className="form-control"
+                            name="email"
+                            placeholder="Email"
+                            onChange={(e) => this.onChange(e.target.value, 'email')}
+                        />
                     </div>
                     <div className="input-group">
-                        <span className="input-group-addon"><span className="glyphicon glyphicon-lock"></span></span>
-                        <input  id="txtPassword" type="password" className="form-control" name="password" placeholder="Password" onChange={e => this.onChange(e.target.value, 'password')} />
+                        <span className="input-group-addon">
+                            <span className="glyphicon glyphicon-lock"></span>
+                        </span>
+                        <input
+                            id="txtPassword"
+                            type="password"
+                            className="form-control"
+                            name="password"
+                            placeholder="Password"
+                            onChange={(e) => this.onChange(e.target.value, 'password')}
+                        />
                     </div>
                     <div className="input-group">
-                        <span className="input-group-addon"><span className="glyphicon glyphicon-lock"></span></span>
-                        <input  id="confirmTxtPassword" type="password" className="form-control" name="confirmPassword" placeholder="Confirm Password" onChange={e => this.onChange(e.target.value, 'confirmPassword')} />
+                        <span className="input-group-addon">
+                            <span className="glyphicon glyphicon-lock"></span>
+                        </span>
+                        <input
+                            id="confirmTxtPassword"
+                            type="password"
+                            className="form-control"
+                            name="confirmPassword"
+                            placeholder="Confirm Password"
+                            onChange={(e) => this.onChange(e.target.value, 'confirmPassword')}
+                        />
                     </div>
-                    <button className="btn btn-primary btn-block login-button" type="submit" disabled={!this.state.formValid}><i className="fa fa-sign-in"></i> Create Account </button>
-                    </form>
-                </div>
-                </div>
-            </div>
+                    <button
+                        className="btn btn-primary btn-block login-button"
+                        type="submit"
+                        disabled={!this.state.formValid}>
+                        <i className="fa fa-sign-in"></i> Create Account{' '}
+                    </button>
+                </form>
+            </BarongLayout>
         );
     }
 
     private onChange = (value: string, key: string) => {
         if (key === 'email') {
-            value.match(EMAIL_REGEX) ? this.setState({emailValid: true}) : this.setState({emailValid: false});
+            value.match(EMAIL_REGEX) ? this.setState({ emailValid: true }) : this.setState({ emailValid: false });
         } else if (key === 'password') {
-            value.match(PASSWORD_REGEX) ? this.setState({passwordValid: true}) : this.setState({passwordValid: false});
+            value.match(PASSWORD_REGEX)
+                ? this.setState({ passwordValid: true })
+                : this.setState({ passwordValid: false });
         } else if (key === 'confirmPassword') {
-            value === this.state.password ? this.setState({confirmPasswordValid: true}) : this.setState({confirmPasswordValid: false});
+            value === this.state.password
+                ? this.setState({ confirmPasswordValid: true })
+                : this.setState({ confirmPasswordValid: false });
         }
         //@ts-ignore
-        this.setState({
-            [key]: value,
-        }, this.validateForm);
+        const extendState: { [key: string]: string } = {};
+        extendState[key] = value;
+
+        this.setState(extendState as any, this.validateForm);
     };
 
     private validateForm = () => {
@@ -78,13 +112,18 @@ export class BarongRegisterForm extends React.Component<BarongProps, RegisterSta
         });
     };
 
-    private handleSubmit = e => {
+    private handleSubmit = (e) => {
         e.preventDefault();
         const { email, password } = this.state;
-        this.props.register({ email, password }).then(response => {
-            response.status === 201 ? window.location.replace(`${this.props.redirection}`) : window.console.log(response);
-        }).catch(error => {
-            window.console.log(error.response);
-        });
+        this.props
+            .register({ email, password })
+            .then((response) => {
+                response.status === 201
+                    ? window.location.replace(`${this.props.redirection}`)
+                    : window.console.log(response);
+            })
+            .catch((error) => {
+                window.console.log(error.response);
+            });
     };
 }

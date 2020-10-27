@@ -1,6 +1,6 @@
 /* tslint-disable */
 import axios from 'axios';
-import { createElement, Component } from 'react';
+import React__default, { createElement, Component } from 'react';
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
@@ -112,16 +112,21 @@ var withBarong = function (WrappedComponent, wrapperProps) {
                 register: wrapperProps.type === 'register' ? this.register : undefined,
                 redirection: wrapperProps.redirection,
             };
-            return (createElement(WrappedComponent, __assign({}, props)));
+            return React__default.createElement(WrappedComponent, __assign({}, props));
         };
         return WithBarong;
-    }(Component));
+    }(React__default.Component));
     return WithBarong;
 };
 
 /* eslint-disable */
 var PASSWORD_REGEX = /^(?=.{8,})/;
 var EMAIL_REGEX = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
+
+var BarongLayout = function (_a) {
+    var children = _a.children;
+    return React__default.createElement("div", { className: "barong-layout" }, children);
+};
 
 var BarongLoginForm = /** @class */ (function (_super) {
     __extends(BarongLoginForm, _super);
@@ -171,23 +176,21 @@ var BarongLoginForm = /** @class */ (function (_super) {
     }
     BarongLoginForm.prototype.render = function () {
         var _this = this;
-        return (createElement("div", { className: "container login-form" },
-            createElement("div", { className: "panel panel-default" },
-                createElement("div", { className: "panel-body" },
-                    createElement("form", { onSubmit: this.handleSubmit },
-                        createElement("div", { className: "input-group login-userinput" },
-                            createElement("span", { className: "input-group-addon" },
-                                createElement("span", { className: "glyphicon glyphicon-user" })),
-                            createElement("input", { type: "text", className: "form-control", name: "email", placeholder: "Email", onChange: function (e) { return _this.onChange(e.target.value, 'email'); } })),
-                        createElement("div", { className: "input-group" },
-                            createElement("span", { className: "input-group-addon" },
-                                createElement("span", { className: "glyphicon glyphicon-lock" })),
-                            createElement("input", { type: "password", className: "form-control", name: "password", placeholder: "Password", onChange: function (e) { return _this.onChange(e.target.value, 'password'); } })),
-                        createElement("button", { className: "btn btn-primary btn-block login-button", type: "submit", disabled: !this.state.formValid },
-                            createElement("i", { className: "fa fa-sign-in" }),
-                            " Login"),
-                        createElement("div", { className: "login-options text-center mt-3" },
-                            createElement("div", { className: "login-forgot" }, "Forgot Password?")))))));
+        return (createElement(BarongLayout, null,
+            createElement("form", { onSubmit: this.handleSubmit },
+                createElement("div", { className: "input-group login-userinput" },
+                    createElement("span", { className: "input-group-addon" },
+                        createElement("span", { className: "glyphicon glyphicon-user" })),
+                    createElement("input", { type: "text", className: "form-control", name: "email", placeholder: "Email", onChange: function (e) { return _this.onChange(e.target.value, 'email'); } })),
+                createElement("div", { className: "input-group" },
+                    createElement("span", { className: "input-group-addon" },
+                        createElement("span", { className: "glyphicon glyphicon-lock" })),
+                    createElement("input", { type: "password", className: "form-control", name: "password", placeholder: "Password", onChange: function (e) { return _this.onChange(e.target.value, 'password'); } })),
+                createElement("button", { className: "btn btn-primary btn-block login-button", type: "submit", disabled: !this.state.formValid },
+                    createElement("i", { className: "fa fa-sign-in" }),
+                    " Login"),
+                createElement("div", { className: "login-options text-center mt-3" },
+                    createElement("div", { className: "login-forgot" }, "Forgot Password?")))));
     };
     return BarongLoginForm;
 }(Component));
@@ -197,20 +200,23 @@ var BarongRegisterForm = /** @class */ (function (_super) {
     function BarongRegisterForm(props) {
         var _this = _super.call(this, props) || this;
         _this.onChange = function (value, key) {
-            var _a;
             if (key === 'email') {
                 value.match(EMAIL_REGEX) ? _this.setState({ emailValid: true }) : _this.setState({ emailValid: false });
             }
             else if (key === 'password') {
-                value.match(PASSWORD_REGEX) ? _this.setState({ passwordValid: true }) : _this.setState({ passwordValid: false });
+                value.match(PASSWORD_REGEX)
+                    ? _this.setState({ passwordValid: true })
+                    : _this.setState({ passwordValid: false });
             }
             else if (key === 'confirmPassword') {
-                value === _this.state.password ? _this.setState({ confirmPasswordValid: true }) : _this.setState({ confirmPasswordValid: false });
+                value === _this.state.password
+                    ? _this.setState({ confirmPasswordValid: true })
+                    : _this.setState({ confirmPasswordValid: false });
             }
             //@ts-ignore
-            _this.setState((_a = {},
-                _a[key] = value,
-                _a), _this.validateForm);
+            var extendState = {};
+            extendState[key] = value;
+            _this.setState(extendState, _this.validateForm);
         };
         _this.validateForm = function () {
             _this.setState({
@@ -220,9 +226,14 @@ var BarongRegisterForm = /** @class */ (function (_super) {
         _this.handleSubmit = function (e) {
             e.preventDefault();
             var _a = _this.state, email = _a.email, password = _a.password;
-            _this.props.register({ email: email, password: password }).then(function (response) {
-                response.status === 201 ? window.location.replace("" + _this.props.redirection) : window.console.log(response);
-            }).catch(function (error) {
+            _this.props
+                .register({ email: email, password: password })
+                .then(function (response) {
+                response.status === 201
+                    ? window.location.replace("" + _this.props.redirection)
+                    : window.console.log(response);
+            })
+                .catch(function (error) {
                 window.console.log(error.response);
             });
         };
@@ -239,25 +250,24 @@ var BarongRegisterForm = /** @class */ (function (_super) {
     }
     BarongRegisterForm.prototype.render = function () {
         var _this = this;
-        return (createElement("div", { className: "container login-form" },
-            createElement("div", { className: "panel panel-default" },
-                createElement("div", { className: "panel-body" },
-                    createElement("form", { onSubmit: this.handleSubmit },
-                        createElement("div", { className: "input-group login-userinput" },
-                            createElement("span", { className: "input-group-addon" },
-                                createElement("span", { className: "glyphicon glyphicon-user" })),
-                            createElement("input", { id: "userEmail", type: "text", className: "form-control", name: "email", placeholder: "Email", onChange: function (e) { return _this.onChange(e.target.value, 'email'); } })),
-                        createElement("div", { className: "input-group" },
-                            createElement("span", { className: "input-group-addon" },
-                                createElement("span", { className: "glyphicon glyphicon-lock" })),
-                            createElement("input", { id: "txtPassword", type: "password", className: "form-control", name: "password", placeholder: "Password", onChange: function (e) { return _this.onChange(e.target.value, 'password'); } })),
-                        createElement("div", { className: "input-group" },
-                            createElement("span", { className: "input-group-addon" },
-                                createElement("span", { className: "glyphicon glyphicon-lock" })),
-                            createElement("input", { id: "confirmTxtPassword", type: "password", className: "form-control", name: "confirmPassword", placeholder: "Confirm Password", onChange: function (e) { return _this.onChange(e.target.value, 'confirmPassword'); } })),
-                        createElement("button", { className: "btn btn-primary btn-block login-button", type: "submit", disabled: !this.state.formValid },
-                            createElement("i", { className: "fa fa-sign-in" }),
-                            " Create Account "))))));
+        return (createElement(BarongLayout, null,
+            createElement("form", { onSubmit: this.handleSubmit },
+                createElement("div", { className: "input-group login-userinput" },
+                    createElement("span", { className: "input-group-addon" },
+                        createElement("span", { className: "glyphicon glyphicon-user" })),
+                    createElement("input", { id: "userEmail", type: "text", className: "form-control", name: "email", placeholder: "Email", onChange: function (e) { return _this.onChange(e.target.value, 'email'); } })),
+                createElement("div", { className: "input-group" },
+                    createElement("span", { className: "input-group-addon" },
+                        createElement("span", { className: "glyphicon glyphicon-lock" })),
+                    createElement("input", { id: "txtPassword", type: "password", className: "form-control", name: "password", placeholder: "Password", onChange: function (e) { return _this.onChange(e.target.value, 'password'); } })),
+                createElement("div", { className: "input-group" },
+                    createElement("span", { className: "input-group-addon" },
+                        createElement("span", { className: "glyphicon glyphicon-lock" })),
+                    createElement("input", { id: "confirmTxtPassword", type: "password", className: "form-control", name: "confirmPassword", placeholder: "Confirm Password", onChange: function (e) { return _this.onChange(e.target.value, 'confirmPassword'); } })),
+                createElement("button", { className: "btn btn-primary btn-block login-button", type: "submit", disabled: !this.state.formValid },
+                    createElement("i", { className: "fa fa-sign-in" }),
+                    " Create Account",
+                    ' '))));
     };
     return BarongRegisterForm;
 }(Component));

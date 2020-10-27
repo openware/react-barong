@@ -1,5 +1,5 @@
 import axios from 'axios';
-import * as React from 'react';
+import React from 'react';
 
 interface RequestDataInterface {
     email: string;
@@ -21,9 +21,7 @@ export const withBarong = (WrappedComponent: any, wrapperProps: WithBarongProps)
                 redirection: wrapperProps.redirection,
             };
 
-            return (
-                <WrappedComponent {...props} />
-            );
+            return <WrappedComponent {...props} />;
         }
 
         private login = async (obj: RequestDataInterface) => {
