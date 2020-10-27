@@ -1,0 +1,20 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    &__header {
+        display: flex;
+        flex-direction: row;
+        padding: 5px;
+        border-bottom: 2px solid rgb(214, 214, 214);
+
+        &-link {
+            padding: 5px;
+        }
+    }
+    &__children {
+        &-content {
+            margin: 15px auto;
+            max-width: 500px;
+        }
+    }
+}

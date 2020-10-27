@@ -1,0 +1,12 @@
+{
+  "jsxBracketSameLine": true,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "printWidth": 120,
+  "tabWidth": 4,
+  "endOfLine": "auto",
+  "semi": true,
+  "tslintIntegration": true,
+  "stylelintIntegration": true,
+  "ignorePath": ".gitignore"
+}
