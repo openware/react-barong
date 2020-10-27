@@ -45,7 +45,7 @@ export class BarongLoginForm extends React.Component<BarongProps, LoginState> {
                                     className="form-control"
                                     name="email"
                                     placeholder="Email"
-                                    onChange={(e) => this.onChange(e.target.value, 'email')}
+                                    onChange={e => this.onChange(e.target.value, 'email')}
                                 />
                             </div>
                             <div className="input-group">
@@ -57,7 +57,7 @@ export class BarongLoginForm extends React.Component<BarongProps, LoginState> {
                                     className="form-control"
                                     name="password"
                                     placeholder="Password"
-                                    onChange={(e) => this.onChange(e.target.value, 'password')}
+                                    onChange={e => this.onChange(e.target.value, 'password')}
                                 />
                             </div>
                             <button
@@ -97,18 +97,18 @@ export class BarongLoginForm extends React.Component<BarongProps, LoginState> {
         });
     };
 
-    private handleSubmit = (e) => {
+    private handleSubmit =e => {
         e.preventDefault();
         const { email, password } = this.state;
 
         this.props
             .login({ email, password })
-            .then((response) => {
+            .then(response => {
                 response.status === 200
                     ? window.location.replace(`${this.props.redirection}`)
                     : window.console.log(response);
             })
-            .catch((err) => {
+            .catch(err => {
                 window.console.error(err);
             });
     };
