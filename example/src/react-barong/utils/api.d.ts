@@ -7,7 +7,7 @@ export interface RegisterBody {
     email: string;
     password: string;
 }
-declare function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse<any>>;
+declare function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse>;
 export declare const ApiUtil: {
     post: typeof post;
     login: (host: string, data: LoginBody) => Promise<AxiosResponse<any>>;
