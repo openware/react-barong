@@ -1,6 +1,8 @@
 {
-    "name": "my-ts-app1",
-    "version": "0.1.0",
+    "name": "react-barong-example",
+    "homepage": "https://openware.github.io/react-barong",
+    "version": "0.0.0",
+    "license": "MIT",
     "private": true,
     "dependencies": {
         "@testing-library/jest-dom": "^5.11.4",

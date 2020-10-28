@@ -10,16 +10,16 @@ export interface RegisterBody {
     password: string;
 }
 
-function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse<any>> {
+function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse> {
     return axios.post(`${host}/${subpath}`, body);
 }
 
 export const ApiUtil = {
     post,
-    login: (host: string, data: LoginBody): Promise<AxiosResponse<any>> => {
+    login: (host: string, data: LoginBody): Promise<AxiosResponse> => {
         return post(host, 'identity/sessions', data);
     },
-    register: (host: string, data: RegisterBody): Promise<AxiosResponse<any>> => {
+    register: (host: string, data: RegisterBody): Promise<AxiosResponse> => {
         return post(host, 'identity/users', data);
     },
 };

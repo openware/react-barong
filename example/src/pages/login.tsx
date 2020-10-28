@@ -7,7 +7,11 @@ export const LoginPage: React.FC = () => {
     return (
         <Layout>
             <h2>Login</h2>
-            <BarongLoginForm host="http://localhost:3000/api/v2" redirection="http://localhost:3000/office" />
+            <BarongLoginForm
+                host="http://localhost:3000/api/v2"
+                redirection="http://localhost:3000/office"
+                forgotPasswordUrl="http://localhost:3000/forgotpassword"
+            />
         </Layout>
     );
 };

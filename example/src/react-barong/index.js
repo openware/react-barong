@@ -41,7 +41,7 @@ var InputError = function (_a) {
 };
 
 var BarongLoginForm = function (_a) {
-    var host = _a.host, redirection = _a.redirection;
+    var host = _a.host, redirection = _a.redirection, forgotPasswordUrl = _a.forgotPasswordUrl;
     var _b = useForm(), register = _b.register, handleSubmit = _b.handleSubmit, errors = _b.errors;
     var onSubmit = useCallback(function (data) {
         ApiUtil.login(host, data)
@@ -71,9 +71,11 @@ var BarongLoginForm = function (_a) {
                         pattern: { value: PASSWORD_REGEX, message: 'Incorrect Password' },
                     }) }),
                 React.createElement(InputError, { name: "password", errors: errors })),
-            React.createElement(Button, { type: "submit", block: true }, "Login"),
-            React.createElement("div", { className: "login-options text-center mt-3" },
-                React.createElement("div", { className: "login-forgot" }, "Forgot Password?")))));
+            React.createElement(Form.Group, null,
+                React.createElement(Button, { type: "submit", block: true }, "Login")),
+            forgotPasswordUrl ? (React.createElement(Form.Group, null,
+                React.createElement("div", { className: "login-form__forgot" },
+                    React.createElement("a", { href: forgotPasswordUrl }, "Forgot Password?")))) : null)));
 };
 
 var BarongRegisterForm = function (_a) {

@@ -11,9 +11,10 @@ import { InputError } from '../form-error';
 interface Props {
     redirection: string;
     host: string;
+    forgotPasswordUrl?: string;
 }
 
-export const BarongLoginForm: React.FC<Props> = ({ host, redirection }) => {
+export const BarongLoginForm: React.FC<Props> = ({ host, redirection, forgotPasswordUrl }) => {
     const { register, handleSubmit, errors } = useForm();
 
     const onSubmit = useCallback(
@@ -64,12 +65,18 @@ export const BarongLoginForm: React.FC<Props> = ({ host, redirection }) => {
                     />
                     <InputError name="password" errors={errors} />
                 </Form.Group>
-                <Button type="submit" block={true}>
-                    Login
-                </Button>
-                <div className="login-options text-center mt-3">
-                    <div className="login-forgot">Forgot Password?</div>
-                </div>
+                <Form.Group>
+                    <Button type="submit" block={true}>
+                        Login
+                    </Button>
+                </Form.Group>
+                {forgotPasswordUrl ? (
+                    <Form.Group>
+                        <div className="login-form__forgot">
+                            <a href={forgotPasswordUrl}>Forgot Password?</a>
+                        </div>
+                    </Form.Group>
+                ) : null}
             </form>
         </BarongLayout>
     );
