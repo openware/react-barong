@@ -1,3 +1,5 @@
 import { BarongLoginForm } from './components/login';
 import { BarongRegisterForm } from './components/register';
-export { BarongRegisterForm, BarongLoginForm, };
+import { BarongLogoutButton, LogoutButtonProps } from './components/logout';
+import { BarongApiUtil } from './utils';
+export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil, LogoutButtonProps };

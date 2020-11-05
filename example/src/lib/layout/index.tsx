@@ -18,6 +18,9 @@ export const Layout: React.FC<Props> = ({ children }) => {
                 <a className="layout__header-link" href={AppUrl.register.path}>
                     Register
                 </a>
+                <a className="layout__header-link" href={AppUrl.logout.path}>
+                    Log out
+                </a>
             </div>
             <div className="layout__children">
                 <div className="layout__children-content">{children}</div>

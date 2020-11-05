@@ -4,34 +4,37 @@ import { Button, Form } from 'react-bootstrap';
 
 import './index.scss';
 
-import { ApiUtil, EMAIL_REGEX, LoginBody, PASSWORD_REGEX } from '../../utils';
+import { BarongApiUtil, EMAIL_REGEX, LoginBody, PASSWORD_REGEX } from '../../utils';
 import { BarongLayout } from '../layout';
 import { InputError } from '../form-error';
+import { BaseRedirectProps } from '../interfaces';
 
-interface Props {
-    redirection: string;
-    host: string;
+interface Props extends BaseRedirectProps {
     forgotPasswordUrl?: string;
 }
 
-export const BarongLoginForm: React.FC<Props> = ({ host, redirection, forgotPasswordUrl }) => {
+export const BarongLoginForm: React.FC<Props> = ({ host, redirection, testMode, forgotPasswordUrl }) => {
     const { register, handleSubmit, errors } = useForm();
 
     const onSubmit = useCallback(
         (data: LoginBody) => {
-            ApiUtil.login(host, data)
-                .then((response) => {
-                    if (response.status === 200) {
-                        window.location.replace(redirection);
-                    } else {
-                        window.console.log(response);
-                    }
-                })
-                .catch((err) => {
-                    window.console.error(err);
-                });
+            if (testMode === true) {
+                window.location.replace(redirection);
+            } else {
+                BarongApiUtil.login(host, data)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            window.location.replace(redirection);
+                        } else {
+                            window.console.error(response);
+                        }
+                    })
+                    .catch((err) => {
+                        window.console.error(err);
+                    });
+            }
         },
-        [host, redirection]
+        [host, redirection, testMode]
     );
 
     return (
