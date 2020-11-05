@@ -8,9 +8,10 @@ export interface RegisterBody {
     password: string;
 }
 declare function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse>;
-export declare const ApiUtil: {
+export declare const BarongApiUtil: {
     post: typeof post;
     login: (host: string, data: LoginBody) => Promise<AxiosResponse<any>>;
+    logout: (host: string) => Promise<AxiosResponse<any>>;
     register: (host: string, data: RegisterBody) => Promise<AxiosResponse<any>>;
 };
 export {};

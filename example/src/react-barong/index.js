@@ -11,10 +11,13 @@ var EMAIL_REGEX = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\
 function post(host, subpath, body) {
     return axios.post(host + "/" + subpath, body);
 }
-var ApiUtil = {
+var BarongApiUtil = {
     post: post,
     login: function (host, data) {
         return post(host, 'identity/sessions', data);
+    },
+    logout: function (host) {
+        return axios.delete(host + "/identity/sessions");
     },
     register: function (host, data) {
         return post(host, 'identity/users', data);
@@ -41,22 +44,27 @@ var InputError = function (_a) {
 };
 
 var BarongLoginForm = function (_a) {
-    var host = _a.host, redirection = _a.redirection, forgotPasswordUrl = _a.forgotPasswordUrl;
+    var host = _a.host, redirection = _a.redirection, testMode = _a.testMode, forgotPasswordUrl = _a.forgotPasswordUrl;
     var _b = useForm(), register = _b.register, handleSubmit = _b.handleSubmit, errors = _b.errors;
     var onSubmit = useCallback(function (data) {
-        ApiUtil.login(host, data)
-            .then(function (response) {
-            if (response.status === 200) {
-                window.location.replace(redirection);
-            }
-            else {
-                window.console.log(response);
-            }
-        })
-            .catch(function (err) {
-            window.console.error(err);
-        });
-    }, [host, redirection]);
+        if (testMode === true) {
+            window.location.replace(redirection);
+        }
+        else {
+            BarongApiUtil.login(host, data)
+                .then(function (response) {
+                if (response.status === 200) {
+                    window.location.replace(redirection);
+                }
+                else {
+                    window.console.error(response);
+                }
+            })
+                .catch(function (err) {
+                window.console.error(err);
+            });
+        }
+    }, [host, redirection, testMode]);
     return (React.createElement(BarongLayout, null,
         React.createElement("form", { onSubmit: handleSubmit(onSubmit) },
             React.createElement(Form.Group, null,
@@ -79,17 +87,24 @@ var BarongLoginForm = function (_a) {
 };
 
 var BarongRegisterForm = function (_a) {
-    var host = _a.host, redirection = _a.redirection;
+    var host = _a.host, redirection = _a.redirection, testMode = _a.testMode;
     var _b = useForm(), register = _b.register, handleSubmit = _b.handleSubmit, errors = _b.errors, watch = _b.watch;
     var onSubmit = useCallback(function (data) {
-        ApiUtil.register(host, data)
-            .then(function (response) {
-            response.status === 201 ? window.location.replace("" + redirection) : window.console.log(response);
-        })
-            .catch(function (error) {
-            window.console.log(error.response);
-        });
-    }, [host, redirection]);
+        if (testMode === true) {
+            window.location.replace(redirection);
+        }
+        else {
+            BarongApiUtil.register(host, data)
+                .then(function (response) {
+                response.status === 201
+                    ? window.location.replace("" + redirection)
+                    : window.console.error(response);
+            })
+                .catch(function (error) {
+                window.console.log(error.response);
+            });
+        }
+    }, [host, redirection, testMode]);
     return (React.createElement(BarongLayout, null,
         React.createElement("form", { onSubmit: handleSubmit(onSubmit) },
             React.createElement(Form.Group, null,
@@ -114,4 +129,28 @@ var BarongRegisterForm = function (_a) {
             React.createElement(Button, { type: "submit", block: true }, "Create Account"))));
 };
 
-export { BarongRegisterForm, BarongLoginForm };
+var BarongLogoutButton = function (_a) {
+    var host = _a.host, redirection = _a.redirection, render = _a.render, _b = _a.text, text = _b === void 0 ? 'Log Out' : _b, testMode = _a.testMode;
+    var onSubmit = useCallback(function () {
+        if (testMode === true) {
+            window.location.replace(redirection);
+        }
+        else {
+            BarongApiUtil.logout(host)
+                .then(function (response) {
+                if (response.status === 200) {
+                    window.location.replace(redirection);
+                }
+                else {
+                    window.console.error(response);
+                }
+            })
+                .catch(function (err) {
+                window.console.error(err);
+            });
+        }
+    }, [host, redirection, testMode]);
+    return render ? render({ onClick: onSubmit }) : React.createElement(Button, { onClick: onSubmit }, text);
+};
+
+export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil };

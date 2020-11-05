@@ -1,8 +1,7 @@
 import React from 'react';
 import './index.scss';
-interface Props {
-    redirection: string;
-    host: string;
+import { BaseRedirectProps } from '../interfaces';
+interface Props extends BaseRedirectProps {
     forgotPasswordUrl?: string;
 }
 export declare const BarongLoginForm: React.FC<Props>;

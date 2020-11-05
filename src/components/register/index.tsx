@@ -2,29 +2,31 @@ import React, { useCallback } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
-import { ApiUtil, EMAIL_REGEX, PASSWORD_REGEX, RegisterBody } from '../../utils';
+import { BarongApiUtil, EMAIL_REGEX, PASSWORD_REGEX, RegisterBody } from '../../utils';
 import { InputError } from '../form-error';
+import { BaseRedirectProps } from '../interfaces';
 import { BarongLayout } from '../layout';
 
-interface Props {
-    redirection: string;
-    host: string;
-}
-
-export const BarongRegisterForm: React.FC<Props> = ({ host, redirection }) => {
+export const BarongRegisterForm: React.FC<BaseRedirectProps> = ({ host, redirection, testMode }) => {
     const { register, handleSubmit, errors, watch } = useForm();
 
     const onSubmit = useCallback(
         (data: RegisterBody) => {
-            ApiUtil.register(host, data)
-                .then((response) => {
-                    response.status === 201 ? window.location.replace(`${redirection}`) : window.console.log(response);
-                })
-                .catch((error) => {
-                    window.console.log(error.response);
-                });
+            if (testMode === true) {
+                window.location.replace(redirection);
+            } else {
+                BarongApiUtil.register(host, data)
+                    .then((response) => {
+                        response.status === 201
+                            ? window.location.replace(`${redirection}`)
+                            : window.console.error(response);
+                    })
+                    .catch((error) => {
+                        window.console.log(error.response);
+                    });
+            }
         },
-        [host, redirection]
+        [host, redirection, testMode]
     );
 
     return (
