@@ -10,19 +10,20 @@ export interface RegisterBody {
     password: string;
 }
 
-async function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse> {
+function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse> {
     return axios.post(`${host}/${subpath}`, body);
 }
 
 export const BarongApiUtil = {
     post,
-    login: async (host: string, data: LoginBody): Promise<AxiosResponse> => {
+    login: (host: string, data: LoginBody): Promise<AxiosResponse> => {
         return post(host, 'identity/sessions', data);
     },
-    logout: async (host: string): Promise<AxiosResponse> => {
+    logout: (host: string): Promise<AxiosResponse> => {
         return axios.delete(`${host}/identity/sessions`);
     },
-    register: async (host: string, data: RegisterBody): Promise<AxiosResponse> => {
+    register: (host: string, data: RegisterBody): Promise<AxiosResponse> => {
         return post(host, 'identity/users', data);
     },
 };
+
