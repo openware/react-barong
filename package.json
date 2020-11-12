@@ -34,6 +34,7 @@
         "serialize-javascript": ">= 2.1.1"
     },
     "dependencies": {
+        "axios": "^0.21.0",
         "bootstrap": "4.5.2",
         "react-bootstrap": "1.0.0-beta.16",
         "react-hook-form": "^6.9.6"
