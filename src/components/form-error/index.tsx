@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { FieldErrors } from 'react-hook-form';
 
-import './index.scss';
-
 interface Props {
     name: string;
     errors: FieldErrors<{ message: string }>;

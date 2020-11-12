@@ -1,6 +1,5 @@
 import React from 'react';
 import { FieldErrors } from 'react-hook-form';
-import './index.scss';
 interface Props {
     name: string;
     errors: FieldErrors<{
