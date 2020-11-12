@@ -2,7 +2,6 @@ import typescript from 'rollup-plugin-typescript2';
 import scss from 'rollup-plugin-scss';
 import pkg from './package.json';
 import external from 'rollup-plugin-peer-deps-external';
-import fs from 'fs';
 
 const plugins = [
     external(),
@@ -10,11 +9,7 @@ const plugins = [
         typescript: require('typescript'),
     }),
     scss({
-        output: true,
-        output: function (styles, styleNodes) {
-            fs.writeFileSync('dist/index.scss', styles);
-            fs.writeFileSync('example/src/react-barong/index.scss', styles);
-        },
+        output: 'dist/index.scss',
     }),
 ];
 
@@ -40,4 +35,5 @@ export default {
         },
     ],
     plugins,
+    external: ['react-hook-form', 'react-bootstrap', 'axios'],
 };
