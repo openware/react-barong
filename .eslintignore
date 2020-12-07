@@ -1,0 +1,9 @@
+/dist
+/.rpt2_cache
+/node_modules
+
+# example
+/example/node_modules
+/example/public
+/example/src/react-barong
+

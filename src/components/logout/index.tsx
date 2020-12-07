@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 
-import { BarongApiUtil } from '../../utils';
 import { Button } from 'react-bootstrap';
+
+import { BarongApiUtil } from '../../utils';
 import { BaseRedirectProps } from '../interfaces';
 
 export interface LogoutButtonProps {

@@ -8,7 +8,6 @@ import { parseUrl } from 'query-string';
 /* eslint-disable */
 var PASSWORD_REGEX = /^(?=.{8,})/;
 var EMAIL_REGEX = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
-//# sourceMappingURL=validation.js.map
 
 function post(host, subpath, body) {
     return axios.post(host + "/" + subpath, body);
@@ -28,15 +27,11 @@ var BarongApiUtil = {
         return axios.put(host + "/identity/users/password/confirm_code", data);
     },
 };
-//# sourceMappingURL=api.js.map
-
-//# sourceMappingURL=index.js.map
 
 var BarongLayout = function (_a) {
     var children = _a.children;
     return React.createElement("div", { className: "barong-layout" }, children);
 };
-//# sourceMappingURL=index.js.map
 
 var InputError = function (_a) {
     var name = _a.name, errors = _a.errors;
@@ -51,7 +46,6 @@ var InputError = function (_a) {
     }, [errors]);
     return text ? React.createElement(Form.Text, null, text) : null;
 };
-//# sourceMappingURL=index.js.map
 
 var BarongLoginForm = function (_a) {
     var host = _a.host, redirection = _a.redirection, testMode = _a.testMode, forgotPasswordUrl = _a.forgotPasswordUrl;
@@ -95,7 +89,6 @@ var BarongLoginForm = function (_a) {
                 React.createElement("div", { className: "login-form__forgot" },
                     React.createElement("a", { href: forgotPasswordUrl }, "Forgot Password?")))) : null)));
 };
-//# sourceMappingURL=index.js.map
 
 var BarongRegisterForm = function (_a) {
     var host = _a.host, redirection = _a.redirection, testMode = _a.testMode;
@@ -139,7 +132,6 @@ var BarongRegisterForm = function (_a) {
                 React.createElement(InputError, { name: "confirmPassword", errors: errors })),
             React.createElement(Button, { type: "submit", block: true }, "Create Account"))));
 };
-//# sourceMappingURL=index.js.map
 
 var BarongResetPasswordForm = function (_a) {
     var host = _a.host, redirection = _a.redirection, testMode = _a.testMode, _b = _a.tokenParameterName, tokenParameterName = _b === void 0 ? 'reset_password_token' : _b;
@@ -206,8 +198,5 @@ var BarongLogoutButton = function (_a) {
     }, [host, redirection, testMode]);
     return render ? render({ onClick: onSubmit }) : React.createElement(Button, { onClick: onSubmit }, text);
 };
-//# sourceMappingURL=index.js.map
-
-//# sourceMappingURL=index.js.map
 
 export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil, BarongResetPasswordForm };

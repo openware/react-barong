@@ -15,9 +15,9 @@ export interface ResetPasswordBody {
 declare function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse>;
 export declare const BarongApiUtil: {
     post: typeof post;
-    login: (host: string, data: LoginBody) => Promise<AxiosResponse<any>>;
-    logout: (host: string) => Promise<AxiosResponse<any>>;
-    register: (host: string, data: RegisterBody) => Promise<AxiosResponse<any>>;
-    resetPassword: (host: string, data: ResetPasswordBody) => Promise<AxiosResponse<any>>;
+    login: (host: string, data: LoginBody) => Promise<AxiosResponse>;
+    logout: (host: string) => Promise<AxiosResponse>;
+    register: (host: string, data: RegisterBody) => Promise<AxiosResponse>;
+    resetPassword: (host: string, data: ResetPasswordBody) => Promise<AxiosResponse>;
 };
 export {};
