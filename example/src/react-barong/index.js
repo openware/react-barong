@@ -1,12 +1,14 @@
 /* tslint-disable */
 import axios from 'axios';
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { parseUrl } from 'query-string';
 
 /* eslint-disable */
 var PASSWORD_REGEX = /^(?=.{8,})/;
 var EMAIL_REGEX = /^(?:[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+\.)*[\w\!\#\$\%\&\'\*\+\-\/\=\?\^\`\{\|\}\~]+@(?:(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!\.)){0,61}[a-zA-Z0-9]?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9\-](?!$)){0,61}[a-zA-Z0-9]?)|(?:\[(?:(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\.){3}(?:[01]?\d{1,2}|2[0-4]\d|25[0-5])\]))$/;
+//# sourceMappingURL=validation.js.map
 
 function post(host, subpath, body) {
     return axios.post(host + "/" + subpath, body);
@@ -22,12 +24,19 @@ var BarongApiUtil = {
     register: function (host, data) {
         return post(host, 'identity/users', data);
     },
+    resetPassword: function (host, data) {
+        return axios.put(host + "/identity/users/password/confirm_code", data);
+    },
 };
+//# sourceMappingURL=api.js.map
+
+//# sourceMappingURL=index.js.map
 
 var BarongLayout = function (_a) {
     var children = _a.children;
     return React.createElement("div", { className: "barong-layout" }, children);
 };
+//# sourceMappingURL=index.js.map
 
 var InputError = function (_a) {
     var name = _a.name, errors = _a.errors;
@@ -42,6 +51,7 @@ var InputError = function (_a) {
     }, [errors]);
     return text ? React.createElement(Form.Text, null, text) : null;
 };
+//# sourceMappingURL=index.js.map
 
 var BarongLoginForm = function (_a) {
     var host = _a.host, redirection = _a.redirection, testMode = _a.testMode, forgotPasswordUrl = _a.forgotPasswordUrl;
@@ -85,6 +95,7 @@ var BarongLoginForm = function (_a) {
                 React.createElement("div", { className: "login-form__forgot" },
                     React.createElement("a", { href: forgotPasswordUrl }, "Forgot Password?")))) : null)));
 };
+//# sourceMappingURL=index.js.map
 
 var BarongRegisterForm = function (_a) {
     var host = _a.host, redirection = _a.redirection, testMode = _a.testMode;
@@ -128,6 +139,49 @@ var BarongRegisterForm = function (_a) {
                 React.createElement(InputError, { name: "confirmPassword", errors: errors })),
             React.createElement(Button, { type: "submit", block: true }, "Create Account"))));
 };
+//# sourceMappingURL=index.js.map
+
+var BarongResetPasswordForm = function (_a) {
+    var host = _a.host, redirection = _a.redirection, testMode = _a.testMode, _b = _a.tokenParameterName, tokenParameterName = _b === void 0 ? 'reset_password_token' : _b;
+    var _c = useForm(), register = _c.register, handleSubmit = _c.handleSubmit, errors = _c.errors, watch = _c.watch;
+    var token = useMemo(function () {
+        var params = parseUrl("" + window.location).query;
+        return params[tokenParameterName] || '';
+    }, [tokenParameterName]);
+    var onSubmit = useCallback(function (data) {
+        data.reset_password_token = token;
+        if (testMode === true) {
+            window.location.replace(redirection);
+        }
+        else {
+            BarongApiUtil.resetPassword(host, data)
+                .then(function (response) {
+                response.status === 201
+                    ? window.location.replace("" + redirection)
+                    : window.console.error(response);
+            })
+                .catch(function (error) {
+                window.console.log(error.response);
+            });
+        }
+    }, [host, redirection, testMode, token]);
+    return (React.createElement(BarongLayout, null,
+        React.createElement("form", { onSubmit: handleSubmit(onSubmit) },
+            React.createElement(Form.Group, null,
+                React.createElement(Form.Control, { type: "password", name: "password", placeholder: "Password", ref: register({
+                        required: { value: true, message: 'Required' },
+                        pattern: { value: PASSWORD_REGEX, message: 'Incorrect Password' },
+                    }) }),
+                React.createElement(InputError, { name: "password", errors: errors })),
+            React.createElement(Form.Group, null,
+                React.createElement(Form.Control, { type: "password", name: "confirm_password", placeholder: "Confirm Password", ref: register({
+                        required: { value: true, message: 'Required' },
+                        pattern: { value: PASSWORD_REGEX, message: 'Incorrect Password' },
+                        validate: function (value) { return value === watch('password') || 'Passwords do not match.'; },
+                    }) }),
+                React.createElement(InputError, { name: "confirmPassword", errors: errors })),
+            React.createElement(Button, { type: "submit", block: true }, "Reset"))));
+};
 
 var BarongLogoutButton = function (_a) {
     var host = _a.host, redirection = _a.redirection, render = _a.render, _b = _a.text, text = _b === void 0 ? 'Log Out' : _b, testMode = _a.testMode;
@@ -152,5 +206,8 @@ var BarongLogoutButton = function (_a) {
     }, [host, redirection, testMode]);
     return render ? render({ onClick: onSubmit }) : React.createElement(Button, { onClick: onSubmit }, text);
 };
+//# sourceMappingURL=index.js.map
 
-export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil };
+//# sourceMappingURL=index.js.map
+
+export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil, BarongResetPasswordForm };

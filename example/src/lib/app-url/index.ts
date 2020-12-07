@@ -1,10 +1,12 @@
 import { AppRoute } from '../routing';
+import { ResetPasswordPath } from './interfaces';
 
 const index = new AppRoute('/');
 const login = new AppRoute('/login');
 const logout = new AppRoute('/logout');
 const register = new AppRoute('/register');
 const result = new AppRoute('/result');
+const resetPassword = new AppRoute<ResetPasswordPath>('/reset-password', [], ['token']);
 
 export const AppUrl = {
     index,
@@ -12,4 +14,5 @@ export const AppUrl = {
     register,
     result,
     logout,
+    resetPassword,
 };

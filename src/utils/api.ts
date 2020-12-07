@@ -10,6 +10,12 @@ export interface RegisterBody {
     password: string;
 }
 
+export interface ResetPasswordBody {
+    reset_password_token: string;
+    password: string;
+    confirm_password: string;
+}
+
 function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse> {
     return axios.post(`${host}/${subpath}`, body);
 }
@@ -25,5 +31,7 @@ export const BarongApiUtil = {
     register: (host: string, data: RegisterBody): Promise<AxiosResponse> => {
         return post(host, 'identity/users', data);
     },
+    resetPassword: (host: string, data: ResetPasswordBody): Promise<AxiosResponse> => {
+        return axios.put(`${host}/identity/users/password/confirm_code`, data);
+    },
 };
-
