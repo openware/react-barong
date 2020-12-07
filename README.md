@@ -30,7 +30,6 @@ npm install --save react-barong
 -   [BarongRegisterForm](#BarongRegisterForm)
 -   [BarongLogoutButton](#BarongLogoutButton)
 -   [BarongResetPasswordForm](#BarongResetPasswordForm)
--   [Usage](#Usage)
 -   [Demo](#Demo)
 -   [Local development](#Local-development)
 -   [License](#License)
@@ -78,42 +77,6 @@ Reset password form
 | `host`               | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.              |
 | `testMode`           | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API.  |
 | `tokenParameterName` | `string`  | No       | Name of the query parameter for token. Default value: `reset_password_token` |
-
-
-## Usage
-
-```tsx
-import React from 'react';
-import { Tabs, Tab } from 'react-bootstrap';
-import { withBarong, BarongLoginForm, BarongRegisterForm } from 'react-barong';
-
-const Register = withBarong(BarongRegisterForm, {
-    type: 'register',
-    host: 'http://localhost:3000/api/v2', //localhost can be changed for address of barong application
-    redirection: 'http://localhost:3000/office', //address to which user should be redirected after successful registration
-});
-
-const Login = withBarong(BarongLoginForm, {
-    type: 'login',
-    host: 'http://localhost:3000/api/v2', //localhost can be changed for address of barong application
-    redirection: 'http://localhost:3000/office', //address to which user should be redirected after successful sign in
-});
-
-export default class ExampleApp extends React.Component {
-    render() {
-        return (
-            <Tabs fill justify defaultActiveKey="login" id="uncontrolled-tab-example">
-                <Tab eventKey="login" title="SignIn">
-                    <Login />
-                </Tab>
-                <Tab eventKey="create-account" title="SignUp">
-                    <Register />
-                </Tab>
-            </Tabs>
-        );
-    }
-}
-```
 
 ## Demo
 
