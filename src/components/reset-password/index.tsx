@@ -25,21 +25,17 @@ export const BarongResetPasswordForm: React.FC<BarongResetPasswordFormProps> = (
         return params[tokenParameterName] || '';
     }, [tokenParameterName]);
 
+    const handleSuccess = useCallback(() => {
+        window.location.replace(redirection);
+    }, [redirection]);
+
     const onSubmit = useCallback(
         (data: ResetPasswordBody) => {
             data.reset_password_token = token;
             if (testMode === true) {
-                window.location.replace(redirection);
+                handleSuccess();
             } else {
-                BarongApiUtil.resetPassword(host, data)
-                    .then((response) => {
-                        response.status === 201
-                            ? window.location.replace(`${redirection}`)
-                            : window.console.error(response);
-                    })
-                    .catch((error) => {
-                        window.console.log(error.response);
-                    });
+                BarongApiUtil.resetPassword(host, data, handleSuccess);
             }
         },
         [host, redirection, testMode, token]

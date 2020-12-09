@@ -15,21 +15,15 @@ interface Props extends BaseRedirectProps {
 }
 
 export const BarongLogoutButton: React.FC<Props> = ({ host, redirection, render, text = 'Log Out', testMode }) => {
+    const handleSuccess = useCallback(() => {
+        window.location.replace(redirection);
+    }, [redirection]);
+
     const onSubmit = useCallback(() => {
         if (testMode === true) {
-            window.location.replace(redirection);
+            handleSuccess();
         } else {
-            BarongApiUtil.logout(host)
-                .then((response) => {
-                    if (response.status === 200) {
-                        window.location.replace(redirection);
-                    } else {
-                        window.console.error(response);
-                    }
-                })
-                .catch((err) => {
-                    window.console.error(err);
-                });
+            BarongApiUtil.logout(host, handleSuccess);
         }
     }, [host, redirection, testMode]);
 

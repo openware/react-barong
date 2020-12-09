@@ -16,22 +16,68 @@ export interface ResetPasswordBody {
     confirm_password: string;
 }
 
-function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse> {
-    return axios.post(`${host}/${subpath}`, body);
+export interface ForgotPasswordBody {
+    email: string;
+    captcha_response?: string;
+}
+
+// function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse> {
+//     return axios.post(`${host}/${subpath}`, body);
+// }
+
+function handleApiCall(
+    result: Promise<AxiosResponse>,
+    onSuccess: (data?: any) => void,
+    onError?: (error: string) => void
+) {
+    result
+        .then((response) => {
+            if (response.status === 201) {
+                onSuccess(response.data);
+            } else {
+                if (onError) {
+                    onError(`API error: ${response.statusText}`);
+                }
+                window.console.error(response);
+            }
+        })
+        .catch((error) => {
+            if (onError) {
+                onError(`API error: ${error.response}`);
+            }
+            window.console.log(error.response);
+        });
 }
 
 export const BarongApiUtil = {
-    post,
-    login: (host: string, data: LoginBody): Promise<AxiosResponse> => {
-        return post(host, 'identity/sessions', data);
+    login: (host: string, data: LoginBody, onSuccess: (data?: any) => void, onError?: (error: string) => void) => {
+        return handleApiCall(axios.post(`${host}identity/sessions`, data), onSuccess, onError);
     },
-    logout: (host: string): Promise<AxiosResponse> => {
-        return axios.delete(`${host}/identity/sessions`);
+    logout: (host: string, onSuccess: (data?: any) => void, onError?: (error: string) => void) => {
+        return handleApiCall(axios.delete(`${host}/identity/sessions`), onSuccess, onError);
     },
-    register: (host: string, data: RegisterBody): Promise<AxiosResponse> => {
-        return post(host, 'identity/users', data);
+    register: (
+        host: string,
+        data: RegisterBody,
+        onSuccess: (data?: any) => void,
+        onError?: (error: string) => void
+    ) => {
+        return handleApiCall(axios.post(`${host}/identity/users`, data), onSuccess, onError);
     },
-    resetPassword: (host: string, data: ResetPasswordBody): Promise<AxiosResponse> => {
-        return axios.put(`${host}/identity/users/password/confirm_code`, data);
+    resetPassword: (
+        host: string,
+        data: ResetPasswordBody,
+        onSuccess: (data?: any) => void,
+        onError?: (error: string) => void
+    ) => {
+        return handleApiCall(axios.put(`${host}/identity/users/password/confirm_code`, data), onSuccess, onError);
+    },
+    forgotPassword: (
+        host: string,
+        data: ForgotPasswordBody,
+        onSuccess: (data?: any) => void,
+        onError?: (error: string) => void
+    ) => {
+        return handleApiCall(axios.post(`${host}/identity/users/password/generate_code`, data), onSuccess, onError);
     },
 };

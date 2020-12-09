@@ -24,6 +24,9 @@ export const Layout: React.FC<Props> = ({ children }) => {
                 <a className="layout__header-link" href={AppUrl.resetPassword.url({ token: '123456' })}>
                     Reset Passowrd
                 </a>
+                <a className="layout__header-link" href={AppUrl.forgotPassword.path}>
+                    Forgot Passowrd
+                </a>
             </div>
             <div className="layout__children">
                 <div className="layout__children-content">{children}</div>

@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 export interface LoginBody {
     email: string;
     password: string;
@@ -12,12 +11,14 @@ export interface ResetPasswordBody {
     password: string;
     confirm_password: string;
 }
-declare function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse>;
+export interface ForgotPasswordBody {
+    email: string;
+    captcha_response?: string;
+}
 export declare const BarongApiUtil: {
-    post: typeof post;
-    login: (host: string, data: LoginBody) => Promise<AxiosResponse>;
-    logout: (host: string) => Promise<AxiosResponse>;
-    register: (host: string, data: RegisterBody) => Promise<AxiosResponse>;
-    resetPassword: (host: string, data: ResetPasswordBody) => Promise<AxiosResponse>;
+    login: (host: string, data: LoginBody, onSuccess: (data?: any) => void, onError?: ((error: string) => void) | undefined) => void;
+    logout: (host: string, onSuccess: (data?: any) => void, onError?: ((error: string) => void) | undefined) => void;
+    register: (host: string, data: RegisterBody, onSuccess: (data?: any) => void, onError?: ((error: string) => void) | undefined) => void;
+    resetPassword: (host: string, data: ResetPasswordBody, onSuccess: (data?: any) => void, onError?: ((error: string) => void) | undefined) => void;
+    forgotPassword: (host: string, data: ForgotPasswordBody, onSuccess: (data?: any) => void, onError?: ((error: string) => void) | undefined) => void;
 };
-export {};

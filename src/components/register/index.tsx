@@ -10,20 +10,16 @@ import { BarongLayout } from '../layout';
 export const BarongRegisterForm: React.FC<BaseRedirectProps> = ({ host, redirection, testMode }) => {
     const { register, handleSubmit, errors, watch } = useForm();
 
+    const handleSuccess = useCallback(() => {
+        window.location.replace(redirection);
+    }, [redirection]);
+
     const onSubmit = useCallback(
         (data: RegisterBody) => {
             if (testMode === true) {
-                window.location.replace(redirection);
+                handleSuccess();
             } else {
-                BarongApiUtil.register(host, data)
-                    .then((response) => {
-                        response.status === 201
-                            ? window.location.replace(`${redirection}`)
-                            : window.console.error(response);
-                    })
-                    .catch((error) => {
-                        window.console.log(error.response);
-                    });
+                BarongApiUtil.register(host, data, handleSuccess);
             }
         },
         [host, redirection, testMode]

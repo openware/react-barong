@@ -30,6 +30,7 @@ npm install --save react-barong
 -   [BarongRegisterForm](#BarongRegisterForm)
 -   [BarongLogoutButton](#BarongLogoutButton)
 -   [BarongResetPasswordForm](#BarongResetPasswordForm)
+-   [BarongForgotPasswordForm](#BarongForgotPasswordForm)
 -   [Demo](#Demo)
 -   [Local development](#Local-development)
 -   [License](#License)
@@ -77,6 +78,16 @@ Reset password form
 | `host`               | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.              |
 | `testMode`           | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API.  |
 | `tokenParameterName` | `string`  | No       | Name of the query parameter for token. Default value: `reset_password_token` |
+
+### BarongForgotPasswordForm
+
+Reset password form
+
+| Name       | Type      | Required | Description                                                                 |
+| ---------- | --------- | -------- | --------------------------------------------------------------------------- |
+| `host`     | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.             |
+| `testMode` | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API. |
+| `delay`    | `number`  | No       | Seconds passed the user can resend an email. Default: 60.                   |
 
 ## Demo
 
