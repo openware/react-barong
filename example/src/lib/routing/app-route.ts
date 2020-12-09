@@ -28,6 +28,7 @@ export class AppRoute<TParams = { [key: string]: any }> {
             this.queryKeys = [...queryKeys];
         }
     }
+    
     public url(params: TParams): string {
         let path = this.path;
         if (params) {
@@ -55,11 +56,11 @@ export class AppRoute<TParams = { [key: string]: any }> {
         }
         return path;
     }
+
     public isActive(path: string): boolean;
     public isActive<TParams>(params: TParams, path: string): boolean;
     public isActive(p1: any, p2?: any): boolean {
         if (p2) {
-            // console.log('isactive', this.url(p1), p2, this.url(p1) === p2);
             return this.url(p1) === p2;
         } else {
             return this.path === p1;
