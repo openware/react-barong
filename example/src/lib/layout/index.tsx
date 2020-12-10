@@ -27,6 +27,9 @@ export const Layout: React.FC<Props> = ({ children }) => {
                 <a className="layout__header-link" href={AppUrl.forgotPassword.path}>
                     Forgot Passowrd
                 </a>
+                <a className="layout__header-link" href={AppUrl.confirmationEmail.url({ token: '123456' })}>
+                    Confirmation Email
+                </a>
             </div>
             <div className="layout__children">
                 <div className="layout__children-content">{children}</div>

@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 
-import { BarongApiUtil, EMAIL_REGEX, ForgotPasswordBody } from '../../utils';
+import { BarongApiUtil, EMAIL_REGEX, GenerateTokenBody } from '../../utils';
 import { InputError } from '../form-error';
 import { BaseRedirectProps } from '../interfaces';
 import { BarongLayout } from '../layout';
@@ -22,7 +22,7 @@ export const BarongForgotPasswordForm: React.FC<BarongForgotPasswordProps> = ({ 
     }, []);
 
     const onSubmit = useCallback(
-        (data: ForgotPasswordBody) => {
+        (data: GenerateTokenBody) => {
             if (testMode === true) {
                 handleSuccess();
             } else {

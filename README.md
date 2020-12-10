@@ -31,6 +31,7 @@ npm install --save react-barong
 -   [BarongLogoutButton](#BarongLogoutButton)
 -   [BarongResetPasswordForm](#BarongResetPasswordForm)
 -   [BarongForgotPasswordForm](#BarongForgotPasswordForm)
+-   [ConfirmEmailForm](#ConfirmEmailForm)
 -   [Demo](#Demo)
 -   [Local development](#Local-development)
 -   [License](#License)
@@ -39,12 +40,13 @@ npm install --save react-barong
 
 Login form
 
-| Name                | Type      | Required | Description                                                                 |
-| ------------------- | --------- | -------- | --------------------------------------------------------------------------- |
-| `redirection`       | `string`  | Yes      | Redirection URL after successful submit.                                    |
-| `host`              | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.             |
-| `testMode`          | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API. |
-| `forgotPasswordUrl` | `string`  | No       | If set, the forgot password lint will be appeared.                          |
+| Name                        | Type      | Required | Description                                                                 | Default                                                      |
+| --------------------------- | --------- | -------- | --------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| `redirection`               | `string`  | Yes      | Redirection URL after successful submit.                                    |                                                              |
+| `host`                      | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.             |                                                              |
+| `testMode`                  | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API. |                                                              |
+| `forgotPasswordUrl`         | `string`  | No       | If set, the forgot password lint will be appeared.                          |                                                              |
+| `confirmationEmailSentText` | `string`  | No       | Text which appear after confirmation email is sent.                         | `Your email is not verified. We sent you confirmation link.` |
 
 ### BarongRegisterForm
 
@@ -72,22 +74,35 @@ Log out button
 
 Reset password form
 
-| Name                 | Type      | Required | Description                                                                  |
-| -------------------- | --------- | -------- | ---------------------------------------------------------------------------- |
-| `redirection`        | `string`  | Yes      | Redirection URL after successful submit.                                     |
-| `host`               | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.              |
-| `testMode`           | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API.  |
-| `tokenParameterName` | `string`  | No       | Name of the query parameter for token. Default value: `reset_password_token` |
+| Name                 | Type      | Required | Description                                                                 | Default                |
+| -------------------- | --------- | -------- | --------------------------------------------------------------------------- | ---------------------- |
+| `redirection`        | `string`  | Yes      | Redirection URL after successful submit.                                    |                        |
+| `host`               | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.             |                        |
+| `testMode`           | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API. |                        |
+| `tokenParameterName` | `string`  | No       | Name of the query parameter for token.                                      | `reset_password_token` |
 
 ### BarongForgotPasswordForm
 
 Reset password form
 
-| Name       | Type      | Required | Description                                                                 |
-| ---------- | --------- | -------- | --------------------------------------------------------------------------- |
-| `host`     | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.             |
-| `testMode` | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API. |
-| `delay`    | `number`  | No       | Seconds passed the user can resend an email. Default: 60.                   |
+| Name       | Type      | Required | Description                                                                 | Default |
+| ---------- | --------- | -------- | --------------------------------------------------------------------------- | ------- |
+| `host`     | `string`  | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.             |         |
+| `testMode` | `boolean` | No       | If test mode is `true`, the submit is fired without calling the barong API. |         |
+| `delay`    | `number`  | No       | Seconds passed the user can resend an email.                                | `60`    |
+
+### ConfirmEmailForm
+
+Reset password form
+
+| Name                 | Type              | Required | Description                                                                 | Default                    |
+| -------------------- | ----------------- | -------- | --------------------------------------------------------------------------- | -------------------------- |
+| `host`               | `string`          | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.             |                            |
+| `testMode`           | `boolean`         | No       | If test mode is `true`, the submit is fired without calling the barong API. |                            |
+| `tokenParameterName` | `string`          | No       | Name of the query parameter for token.                                      | `token`                    |
+| `pendingContent`     | `React.ReactNode` | No       | Pending content.                                                            | `Pending confirmation...`  |
+| `successContent`     | `React.ReactNode` | No       | Success content.                                                            | `Your email is confirmed.` |
+| `errorContent`       | `React.ReactNode` | No       | Error content.                                                              | `Confirmation error.`      |
 
 ## Demo
 
