@@ -4,4 +4,5 @@ import { BarongResetPasswordForm, BarongResetPasswordFormProps } from './compone
 import { BarongLogoutButton, LogoutButtonProps } from './components/logout';
 import { BarongApiUtil } from './utils';
 import { BarongForgotPasswordForm } from './components/forgot-password';
-export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil, LogoutButtonProps, BarongResetPasswordForm, BarongResetPasswordFormProps, BarongForgotPasswordForm, };
+import { ConfirmEmailForm, BarongConfirmEmailFormProps } from './components/confirm-email';
+export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil, LogoutButtonProps, BarongResetPasswordForm, BarongResetPasswordFormProps, BarongForgotPasswordForm, ConfirmEmailForm, BarongConfirmEmailFormProps, };

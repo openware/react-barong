@@ -8,6 +8,7 @@ const register = new AppRoute('/register');
 const result = new AppRoute('/result');
 const resetPassword = new AppRoute<ResetPasswordPath>('/reset-password', [], ['token']);
 const forgotPassword = new AppRoute<ResetPasswordPath>('/forgot-password');
+const confirmationEmail = new AppRoute<ResetPasswordPath>('/confirmation-email', [], ['token']);
 
 export const AppUrl = {
     index,
@@ -17,4 +18,5 @@ export const AppUrl = {
     logout,
     resetPassword,
     forgotPassword,
+    confirmationEmail,
 };
