@@ -16,7 +16,7 @@
         "test": "",
         "test:watch": "",
         "build": "rollup -c",
-        "start": "rollup -c -w",
+        "start": "cross-env BUILD=dev rollup -c -w",
         "start-example": "cd example && yarn start",
         "dev": "concurrently --kill-others \"yarn start\" \"yarn run start-example\"",
         "prepare": "yarn run build",
