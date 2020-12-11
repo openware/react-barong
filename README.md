@@ -67,8 +67,16 @@ Log out button
 | `redirection` | `string`                                             | Yes      | Redirection URL after successful submit.                                    |
 | `host`        | `string`                                             | Yes      | Barong host string. Example: `https://foo-exchange.com/api/v2`.             |
 | `testMode`    | `boolean`                                            | No       | If test mode is `true`, the submit is fired without calling the barong API. |
-| `render`      | `(options: LogoutButtonProps) => React.ReactElement` | No       | Renders custom button                                                       |
+| `render`      | (options: [LogoutButtonProps](#LogoutButtonProps)) => React.ReactElement | No       | Renders custom button                                                       |
 | `text`        | `string`                                             | No       | Buttons string content. Default value: `Log Out`                            |
+
+#### LogoutButtonProps
+
+Log out button options
+
+| Name      | Type         | Required | Description   |
+| --------- | ------------ | -------- | ------------- |
+| `onClick` | `() => void` | Yes      | Click handler |
 
 ### BarongResetPasswordForm
 
