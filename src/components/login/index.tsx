@@ -16,22 +16,16 @@ interface Props extends BaseRedirectProps {
 export const BarongLoginForm: React.FC<Props> = ({ host, redirection, testMode, forgotPasswordUrl }) => {
     const { register, handleSubmit, errors } = useForm();
 
+    const handleSuccess = useCallback(() => {
+        window.location.replace(redirection);
+    }, [redirection]);
+
     const onSubmit = useCallback(
         (data: LoginBody) => {
             if (testMode === true) {
-                window.location.replace(redirection);
+                handleSuccess();
             } else {
-                BarongApiUtil.login(host, data)
-                    .then((response) => {
-                        if (response.status === 200) {
-                            window.location.replace(redirection);
-                        } else {
-                            window.console.error(response);
-                        }
-                    })
-                    .catch((err) => {
-                        window.console.error(err);
-                    });
+                BarongApiUtil.login(host, data, handleSuccess);
             }
         },
         [host, redirection, testMode]

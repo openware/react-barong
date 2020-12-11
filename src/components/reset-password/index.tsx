@@ -1,47 +1,49 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { parseUrl } from 'query-string';
 
-import { BarongApiUtil, EMAIL_REGEX, PASSWORD_REGEX, RegisterBody } from '../../utils';
+import { BarongApiUtil, PASSWORD_REGEX, ResetPasswordBody } from '../../utils';
 import { InputError } from '../form-error';
 import { BaseRedirectProps } from '../interfaces';
 import { BarongLayout } from '../layout';
 
-export const BarongRegisterForm: React.FC<BaseRedirectProps> = ({ host, redirection, testMode }) => {
+export interface BarongResetPasswordFormProps extends BaseRedirectProps {
+    tokenParameterName?: string;
+}
+
+export const BarongResetPasswordForm: React.FC<BarongResetPasswordFormProps> = ({
+    host,
+    redirection,
+    testMode,
+    tokenParameterName = 'reset_password_token',
+}) => {
     const { register, handleSubmit, errors, watch } = useForm();
+
+    const token = useMemo(() => {
+        const params = parseUrl(`${window.location}`).query as { [key: string]: string | undefined };
+        return params[tokenParameterName] || '';
+    }, [tokenParameterName]);
 
     const handleSuccess = useCallback(() => {
         window.location.replace(redirection);
     }, [redirection]);
 
     const onSubmit = useCallback(
-        (data: RegisterBody) => {
+        (data: ResetPasswordBody) => {
+            data.reset_password_token = token;
             if (testMode === true) {
                 handleSuccess();
             } else {
-                BarongApiUtil.register(host, data, handleSuccess);
+                BarongApiUtil.resetPassword(host, data, handleSuccess);
             }
         },
-        [host, redirection, testMode]
+        [host, redirection, testMode, token]
     );
 
     return (
         <BarongLayout>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Form.Group>
-                    <Form.Control
-                        type="text"
-                        name="email"
-                        placeholder="Email"
-                        ref={
-                            register({
-                                required: { value: true, message: 'Required' },
-                                pattern: { value: EMAIL_REGEX, message: 'Incorrect Email' },
-                            }) as any
-                        }
-                    />
-                    <InputError name="email" errors={errors} />
-                </Form.Group>
                 <Form.Group>
                     <Form.Control
                         type="password"
@@ -59,7 +61,7 @@ export const BarongRegisterForm: React.FC<BaseRedirectProps> = ({ host, redirect
                 <Form.Group>
                     <Form.Control
                         type="password"
-                        name="confirmPassword"
+                        name="confirm_password"
                         placeholder="Confirm Password"
                         ref={
                             register({
@@ -72,7 +74,7 @@ export const BarongRegisterForm: React.FC<BaseRedirectProps> = ({ host, redirect
                     <InputError name="confirmPassword" errors={errors} />
                 </Form.Group>
                 <Button type="submit" block={true}>
-                    Create Account
+                    Reset
                 </Button>
             </form>
         </BarongLayout>
