@@ -36,6 +36,7 @@
     "dependencies": {
         "axios": "^0.21.0",
         "bootstrap": "4.5.2",
+        "query-string": "^6.13.7",
         "react-bootstrap": "1.0.0-beta.16",
         "react-hook-form": "^6.9.6",
         "rollup-plugin-node-resolve": "^5.2.0"
@@ -63,7 +64,6 @@
         "eslint-plugin-react": "^7.21.5",
         "gh-pages": "^1.2.0",
         "prettier": "^2.1.2",
-        "query-string": "^6.13.7",
         "react-router": "^3.2.6",
         "rollup": "^0.62.0",
         "rollup-plugin-babel": "^3.0.7",
