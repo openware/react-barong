@@ -16,9 +16,13 @@ export interface ResetPasswordBody {
     confirm_password: string;
 }
 
-export interface ForgotPasswordBody {
+export interface GenerateTokenBody {
     email: string;
     captcha_response?: string;
+}
+
+export interface ConfirmEmailBody {
+    token: string;
 }
 
 // function post<TBody>(host: string, subpath: string, body: TBody): Promise<AxiosResponse> {
@@ -27,13 +31,15 @@ export interface ForgotPasswordBody {
 
 function handleApiCall(
     result: Promise<AxiosResponse>,
-    onSuccess: (data?: any) => void,
+    onSuccess?: (data?: any) => void,
     onError?: (error: string) => void
 ) {
     result
         .then((response) => {
             if (response.status === 201) {
-                onSuccess(response.data);
+                if (onSuccess) {
+                    onSuccess(response.data);
+                }
             } else {
                 if (onError) {
                     onError(`API error: ${response.statusText}`);
@@ -74,10 +80,26 @@ export const BarongApiUtil = {
     },
     forgotPassword: (
         host: string,
-        data: ForgotPasswordBody,
+        data: GenerateTokenBody,
         onSuccess: (data?: any) => void,
         onError?: (error: string) => void
     ) => {
         return handleApiCall(axios.post(`${host}/identity/users/password/generate_code`, data), onSuccess, onError);
+    },
+    generateEmailToken: (
+        host: string,
+        data: GenerateTokenBody,
+        onSuccess?: (data?: any) => void,
+        onError?: (error: string) => void
+    ) => {
+        return handleApiCall(axios.post(`${host}/identity/users/email/generate_code`, data), onSuccess, onError);
+    },
+    confirmEmail: (
+        host: string,
+        data: ConfirmEmailBody,
+        onSuccess?: (data?: any) => void,
+        onError?: (error: string) => void
+    ) => {
+        return handleApiCall(axios.post(`${host}/identity/users/email/confirm_code`, data), onSuccess, onError);
     },
 };

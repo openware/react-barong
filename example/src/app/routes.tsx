@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect, BrowserRouter } from 'react-router-dom';
 import { AppUrl } from '../lib/app-url';
+import { ConfirmationEmailPage } from '../pages/confirmation-email';
 import { ForgotPasswordPage } from '../pages/forgot-password';
 import { LoginPage } from '../pages/login';
 import { LogoutPage } from '../pages/logout';
@@ -18,6 +19,7 @@ export const Routes: React.FC = () => {
                 <Route path={AppUrl.result.path} component={ResultPage} />
                 <Route path={AppUrl.resetPassword.path} component={ResetPasswordPage} />
                 <Route path={AppUrl.forgotPassword.path} component={ForgotPasswordPage} />
+                <Route path={AppUrl.confirmationEmail.path} component={ConfirmationEmailPage} />
                 <Redirect to={AppUrl.login.path} />
             </Switch>
         </BrowserRouter>

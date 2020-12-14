@@ -16,7 +16,9 @@ function handleApiCall(result, onSuccess, onError) {
     result
         .then(function (response) {
         if (response.status === 201) {
-            onSuccess(response.data);
+            if (onSuccess) {
+                onSuccess(response.data);
+            }
         }
         else {
             if (onError) {
@@ -48,6 +50,12 @@ var BarongApiUtil = {
     forgotPassword: function (host, data, onSuccess, onError) {
         return handleApiCall(axios.post(host + "/identity/users/password/generate_code", data), onSuccess, onError);
     },
+    generateEmailToken: function (host, data, onSuccess, onError) {
+        return handleApiCall(axios.post(host + "/identity/users/email/generate_code", data), onSuccess, onError);
+    },
+    confirmEmail: function (host, data, onSuccess, onError) {
+        return handleApiCall(axios.post(host + "/identity/users/email/confirm_code", data), onSuccess, onError);
+    },
 };
 
 var BarongLayout = function (_a) {
@@ -70,38 +78,51 @@ var InputError = function (_a) {
 };
 
 var BarongLoginForm = function (_a) {
-    var host = _a.host, redirection = _a.redirection, testMode = _a.testMode, forgotPasswordUrl = _a.forgotPasswordUrl;
-    var _b = useForm(), register = _b.register, handleSubmit = _b.handleSubmit, errors = _b.errors;
-    var handleSuccess = useCallback(function () {
-        window.location.replace(redirection);
-    }, [redirection]);
-    var onSubmit = useCallback(function (data) {
-        if (testMode === true) {
-            handleSuccess();
+    var host = _a.host, redirection = _a.redirection, testMode = _a.testMode, forgotPasswordUrl = _a.forgotPasswordUrl, _b = _a.confirmationEmailSentText, confirmationEmailSentText = _b === void 0 ? 'Your email is not verified. We sent you confirmation link.' : _b;
+    var _c = useForm(), register = _c.register, handleSubmit = _c.handleSubmit, errors = _c.errors;
+    var _d = useState(false), confirmEmail = _d[0], setConfirmEmail = _d[1];
+    var handleSuccess = useCallback(function (_a, responceData) {
+        var email = _a.email;
+        var user = {};
+        if (responceData) {
+            user = JSON.parse(responceData);
+        }
+        if (user.level === 0) {
+            if (testMode !== true) {
+                BarongApiUtil.generateEmailToken(host, { email: email });
+            }
+            setConfirmEmail(true);
         }
         else {
-            BarongApiUtil.login(host, data, handleSuccess);
+            window.location.replace(redirection);
         }
     }, [host, redirection, testMode]);
-    return (React.createElement(BarongLayout, null,
-        React.createElement("form", { onSubmit: handleSubmit(onSubmit) },
-            React.createElement(Form.Group, null,
-                React.createElement(Form.Control, { type: "text", name: "email", placeholder: "Email", ref: register({
-                        required: { value: true, message: 'Required' },
-                        pattern: { value: EMAIL_REGEX, message: 'Incorrect Email' },
-                    }) }),
-                React.createElement(InputError, { name: "email", errors: errors })),
-            React.createElement(Form.Group, null,
-                React.createElement(Form.Control, { type: "password", name: "password", placeholder: "Password", ref: register({
-                        required: { value: true, message: 'Required' },
-                        pattern: { value: PASSWORD_REGEX, message: 'Incorrect Password' },
-                    }) }),
-                React.createElement(InputError, { name: "password", errors: errors })),
-            React.createElement(Form.Group, null,
-                React.createElement(Button, { type: "submit", block: true }, "Login")),
-            forgotPasswordUrl ? (React.createElement(Form.Group, null,
-                React.createElement("div", { className: "login-form__forgot" },
-                    React.createElement("a", { href: forgotPasswordUrl }, "Forgot Password?")))) : null)));
+    var onSubmit = useCallback(function (data) {
+        if (testMode === true) {
+            handleSuccess(data, JSON.stringify({ level: 0 }));
+        }
+        else {
+            BarongApiUtil.login(host, data, function (responceData) { return handleSuccess(data, responceData); });
+        }
+    }, [host, redirection, testMode]);
+    return (React.createElement(BarongLayout, null, confirmEmail ? (React.createElement("div", { className: "email-confirmation-text" }, confirmationEmailSentText)) : (React.createElement("form", { onSubmit: handleSubmit(onSubmit) },
+        React.createElement(Form.Group, null,
+            React.createElement(Form.Control, { type: "text", name: "email", placeholder: "Email", ref: register({
+                    required: { value: true, message: 'Required' },
+                    pattern: { value: EMAIL_REGEX, message: 'Incorrect Email' },
+                }) }),
+            React.createElement(InputError, { name: "email", errors: errors })),
+        React.createElement(Form.Group, null,
+            React.createElement(Form.Control, { type: "password", name: "password", placeholder: "Password", ref: register({
+                    required: { value: true, message: 'Required' },
+                    pattern: { value: PASSWORD_REGEX, message: 'Incorrect Password' },
+                }) }),
+            React.createElement(InputError, { name: "password", errors: errors })),
+        React.createElement(Form.Group, null,
+            React.createElement(Button, { type: "submit", block: true }, "Login")),
+        forgotPasswordUrl ? (React.createElement(Form.Group, null,
+            React.createElement("div", { className: "login-form__forgot" },
+                React.createElement("a", { href: forgotPasswordUrl }, "Forgot Password?")))) : null))));
 };
 
 var BarongRegisterForm = function (_a) {
@@ -241,4 +262,45 @@ var BarongForgotPasswordForm = function (_a) {
             React.createElement(Button, { type: "submit", block: true, disabled: disable }, disable ? "Resend in " + timeLeft + "s" : 'Send'))));
 };
 
-export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil, BarongResetPasswordForm, BarongForgotPasswordForm };
+var ConfirmEmailForm = function (_a) {
+    var host = _a.host, testMode = _a.testMode, _b = _a.tokenParameterName, tokenParameterName = _b === void 0 ? 'token' : _b, _c = _a.pendingContent, pendingContent = _c === void 0 ? 'Pending confirmation...' : _c, _d = _a.successContent, successContent = _d === void 0 ? 'Your email is confirmed.' : _d, _e = _a.errorContent, errorContent = _e === void 0 ? 'Confirmation error.' : _e;
+    var token = useMemo(function () {
+        var params = parseUrl("" + window.location).query;
+        return params[tokenParameterName] || '';
+    }, [tokenParameterName]);
+    var _f = useState(), result = _f[0], setResult = _f[1];
+    var handleSuccess = useCallback(function () {
+        setResult('success');
+    }, []);
+    var handleError = useCallback(function () {
+        setResult('error');
+    }, []);
+    useEffect(function () {
+        if (testMode === true) {
+            var timer_1 = setTimeout(function () {
+                handleSuccess();
+            }, 1000);
+            return function () {
+                clearTimeout(timer_1);
+            };
+        }
+        else {
+            BarongApiUtil.confirmEmail(host, { token: token }, handleSuccess, handleError);
+            return null;
+        }
+    }, [testMode]);
+    var content = useMemo(function () {
+        if (result === 'error') {
+            return errorContent;
+        }
+        else if (result === 'success') {
+            return successContent;
+        }
+        else {
+            return pendingContent;
+        }
+    }, [result, errorContent, pendingContent, successContent]);
+    return React.createElement(BarongLayout, null, content);
+};
+
+export { BarongRegisterForm, BarongLoginForm, BarongLogoutButton, BarongApiUtil, BarongResetPasswordForm, BarongForgotPasswordForm, ConfirmEmailForm };
